@@ -1,0 +1,13 @@
+GET http://localhost:3000/user/2
+
+###
+
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "sample",
+    "password": "test1234",
+    "email": "test@test.com"
+}
+

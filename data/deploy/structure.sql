@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS "users" (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "pseudo" TEXT NOT NULL UNIQUE,
     "password" TEXT NOT NULL,
-    "role_id" INTEGER NOT NULL REFERENCES roles(id),
+    "email" TEXT NOT NULL UNIQUE,
+    "role_id" INTEGER NOT NULL DEFAULT 2 REFERENCES roles(id),
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ 
 );
@@ -52,15 +53,15 @@ INSERT INTO "roles" (name) VALUES
     ('admin'), 
     ('user');
 
-INSERT INTO "users" (pseudo,password, role_id) VALUES
- ('Nicolas', 'nicolas', 2),
- ('Joris', 'joris', 1),
- ('Nabiha', 'nabiha', 1),
- ('Thibault', 'thibault', 1),
- ('Romain', 'romain', 2),
- ('ChouRaveDu93', 'chouravedu93', 2),
- ('Fleur-Choux', 'fleur-choux', 2),
- ('ChoupinetteDu75', 'choupinettedu75', 2);
+INSERT INTO "users" (pseudo,password,email, role_id) VALUES
+ ('Nicolas', 'nicolas','nicolas@nicolas.com', 2),
+ ('Joris', 'joris','joris@joris.com', 1),
+ ('Nabiha', 'nabiha', 'nabiha@nabiha.com', 1),
+ ('Thibault', 'thibault','thibault@thibault.com', 1),
+ ('Romain', 'romain', 'romain@romain.com', 2),
+ ('ChouRaveDu93', 'chouravedu93','chouravedu93@chouravedu93.com', 2),
+ ('Fleur-Choux', 'fleur-choux','fleur-rcohoux@fleur-rcohoux.com', 2),
+ ('ChoupinetteDu75', 'choupinettedu75', 'choupinettedu75s@choupinettedu75s.com', 2);
  
  INSERT INTO "questions" (content, already_asked, date_of_publication) VALUES
  ('Savez-vous planter des choux ?', '1', CURRENT_TIMESTAMP);

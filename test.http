@@ -11,3 +11,22 @@ content-type: application/json
     "email": "test@test.com"
 }
 
+###
+
+GET http://localhost:3000/login HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "Nicolas",
+    "password": "nicolas"
+}
+
+###
+
+GET http://localhost:3000/login HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "romain@romain.com",
+    "password": "romain"
+}

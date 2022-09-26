@@ -1,7 +1,7 @@
 const usersModel = require('../models/users');
 const usersController = {
     
-
+    /* This is route for search the user by the id */
    async getUserById(req, res, next) {
         const id = req.params.id;
         const user = await usersModel.findByPk(id);
@@ -12,11 +12,15 @@ const usersController = {
         }
 
     },
+    /* This is the route for loggin, is useful for identify user */
+    async findUserByPseudoOrEmail(req, res, next) {
+        const {pseudo, password} = req.body;
 
-    findUserInAllUser(req, res, next) {
-        res.send(`on vérifie si l'utilisateur existe`);
+        const result = await usersModel.findByPseudoOrEmail(pseudo, password);
+        
+        res.json(result);
     },
-
+    /*  This is the route for create new User, is useful for create account */
     async createUser(req, res, next) {
 
        const {pseudo, password, email} = req.body;

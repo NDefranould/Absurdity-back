@@ -30,3 +30,12 @@ content-type: application/json
     "pseudo": "romain@romain.com",
     "password": "romain"
 }
+
+### 
+GET http://localhost:3000/question/2
+
+###
+
+GET http://localhost:3000/questions
+
+###

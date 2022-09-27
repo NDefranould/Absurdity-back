@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const bcrypt = require('bcrypt');
 
 const usersModel = {
     /* This is route for search the user by the id  */    
@@ -22,7 +23,8 @@ const usersModel = {
                                         WHERE pseudo=$1 OR email=$1;`, [pseudo] );
                                         
         if(result){
-            if(result.rows[0].password === password){
+            if(await bcrypt.compare(password, result.rows[0].password)) {
+                
                 delete result.rows[0].password;
                 return result.rows[0];
             }
@@ -32,7 +34,8 @@ const usersModel = {
     },
     /* This is the route for create new User, is useful for create account */
     async create(pseudo, password, email) {
-        const result = await db.query(`INSERT INTO "users" (pseudo,password,email) VALUES ($1, $2,$3)`,  [pseudo,password,email] );
+        const hash = bcrypt.hashSync(password, 10);
+        const result = await db.query(`INSERT INTO "users" (pseudo,password,email) VALUES ($1, $2,$3)`,  [pseudo,hash,email] );
         
         if (result.rowCount === 0) {
             return undefined;

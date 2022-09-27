@@ -5,7 +5,7 @@ const handlerController = require('./controllers/handlerController');
 
 
 // This is the route for the validation of connexion
-router.get('/login', handlerController(usersController.findUserByPseudoOrEmail));
+router.post('/login', handlerController(usersController.findUserByPseudoOrEmail));
 
 /* This is the route for create new Account */
 router.post('/sign-up', handlerController(usersController.createUser));

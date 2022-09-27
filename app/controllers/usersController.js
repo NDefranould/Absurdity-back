@@ -17,15 +17,21 @@ const usersController = {
         const {pseudo, password} = req.body;
 
         const result = await usersModel.findByPseudoOrEmail(pseudo, password);
+
+        if (!result) {
+            res.status(401).json(`User not found`);
+        } else {
+            
+            res.json(result);
+        }
         
-        res.json(result);
     },
     /*  This is the route for create new User, is useful for create account */
     async createUser(req, res, next) {
 
        const {pseudo, password, email} = req.body;
 
-       usersModel.create(pseudo,email,password);
+       usersModel.create(pseudo,password,email);
             console.log('user created');
        res.send('user created');
     }

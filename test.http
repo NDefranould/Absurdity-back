@@ -13,12 +13,12 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/login HTTP/1.1
+POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "Nicolas",
-    "password": "nicolas"
+    "pseudo": "Thib",
+    "password": "Test123"
 }
 
 ###

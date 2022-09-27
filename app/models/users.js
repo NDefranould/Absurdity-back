@@ -20,6 +20,7 @@ const usersModel = {
                                         FROM users
                                         JOIN roles ON roles.id = role_id 
                                         WHERE pseudo=$1 OR email=$1;`, [pseudo] );
+                                        
         if(result){
             if(result.rows[0].password === password){
                 delete result.rows[0].password;

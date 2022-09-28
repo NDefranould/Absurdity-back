@@ -36,4 +36,5 @@ router.get('/users', handlerController(usersController.getAllUsers));
 
 
 
+
 module.exports = router;

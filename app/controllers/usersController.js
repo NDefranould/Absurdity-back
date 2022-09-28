@@ -46,7 +46,9 @@ const usersController = {
        usersModel.create(pseudo,password,email);
             console.log('user created');
        res.send('user created');
-    }
+    },
+    
+    
 };
 
 module.exports = usersController;

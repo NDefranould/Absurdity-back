@@ -10,7 +10,7 @@ router.get('/questions', handlerController(questionsController.getAllQuestions))
 router.post('/questions', handlerController(questionsController.createQuestion));
 /*OK*/
 router.get('/question/:id',handlerController(questionsController.getQuestionById));
-
+/*OK*/
 router.patch('/question/:id',handlerController(questionsController.updateQuestion));
 /*OK*/
 router.delete('/question/:id',handlerController(questionsController.deleteQuestion));
@@ -22,6 +22,8 @@ router.post('/sign-up', handlerController(usersController.createUser));
 router.post('/login', handlerController(usersController.findUserByPseudoOrEmail));
 /* This is the route for Find user By Id */
 router.get('/user/:id',handlerController(usersController.getUserById));
+/*OK*/
+router.get('/users', handlerController(usersController.getAllUsers));
 
 
 

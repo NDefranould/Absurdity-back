@@ -12,6 +12,18 @@ const usersController = {
         }
 
     },
+
+    async getAllUsers(req, res, next) {
+
+        const users = await usersModel.findAll();
+        console.log(users);
+        if (!users) {
+            res.send(`users not found`)
+        } else {
+            res.json(users);
+        }
+
+    },
     /* This is the route for loggin, is useful for identify user */
     async findUserByPseudoOrEmail(req, res, next) {
         const {pseudo, password} = req.body;

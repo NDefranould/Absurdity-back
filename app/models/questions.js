@@ -51,6 +51,10 @@ const questionsModel = {
         return result.rows[0];
 
     },
+    async delete(id) {
+        const result = await db.query('DELETE FROM questions WHERE id = $1', [id]);
+        return !!result.rowCount;
+    },
 }
 
 module.exports = questionsModel;

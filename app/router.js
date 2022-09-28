@@ -12,6 +12,8 @@ router.post('/questions', handlerController(questionsController.createQuestion))
 router.get('/question/:id',handlerController(questionsController.getQuestionById));
 
 
+router.delete('/question/:id',handlerController(questionsController.deleteQuestion));
+
 
 
 /*OK*/

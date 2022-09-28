@@ -1,9 +1,10 @@
+require('dotenv').config();
 const usersModel = require('../models/users');
 const jwt = require("jsonwebtoken");
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (jsonObject) => {
-  return jwt.sign( jsonObject, "test1234", {
+  return jwt.sign( jsonObject, process.env.PASSPHRASE, {
     expiresIn: maxAge,
   });
 };
@@ -34,10 +35,10 @@ const usersController = {
 
     },
     /* This is the route for loggin, is useful for identify user */
-    async findUserByPseudoOrEmail(req, res, next) {
+    async login(req, res, next) {
         const {pseudo, password} = req.body;
 
-        const result = await usersModel.findByPseudoOrEmail(pseudo, password);
+        const result = await usersModel.login(pseudo, password);
         const token = createToken(result);
         if (!result) {
             res.status(401).json(`User not found`);
@@ -47,11 +48,11 @@ const usersController = {
         
     },
     /*  This is the route for create new User, is useful for create account */
-    async createUser(req, res, next) {
+    async signup(req, res, next) {
 
        const {pseudo, password, email} = req.body;
 
-       const status = await usersModel.create(pseudo,password,email);
+       const status = await usersModel.signup(pseudo,password,email);
        res.send(status);
     }
 };

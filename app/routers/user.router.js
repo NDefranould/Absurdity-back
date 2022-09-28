@@ -6,9 +6,9 @@ const usersController = require('../controllers/usersController');
 const tokenAuth = require('../middlewares/auth');
 
 /* This is the route for create new Account */
-router.post('/sign-up', handlerController(usersController.createUser));
+router.post('/sign-up', handlerController(usersController.signup));
 // This is the route for the validation of connexion
-router.post('/login', handlerController(usersController.findUserByPseudoOrEmail));
+router.post('/login', handlerController(usersController.login));
 
 /* This is the route for Find user By Id */
 router.get('/user',tokenAuth.checkUser,handlerController(usersController.getUserById));

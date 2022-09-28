@@ -46,7 +46,7 @@ POST http://localhost:3000/questions
 content-type: application/json
 
 {
-    "content": "Quel heure est-il ?"
+    "content": "Ok ?"
     
 }
 ###

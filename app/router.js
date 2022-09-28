@@ -19,7 +19,7 @@ router.get('/question/:id/answers', handlerController(questionsController.getQue
 router.get('/questions', handlerController(questionsController.getAllQuestions));
 
 router.post('/questions', handlerController(questionsController.createQuestion));
-
+r
 
 
 

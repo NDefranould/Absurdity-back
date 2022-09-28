@@ -1,3 +1,35 @@
+# SIGNUP
+POST http://localhost:3000/sign-up HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "Romain",
+    "password": "romain",
+    "email": "romain@romain.com"
+}
+
+###
+# LOGIN
+POST http://localhost:3000/login HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "Romain",
+    "password": "romain",
+    "email": "romain@romain.com"
+}
+
+###
+
+# GET USER
+GET http://localhost:3000/user
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInBzZXVkbyI6IlJvbWFpbiIsImVtYWlsIjoicm9tYWluQHJvbWFpbi5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDM2ODIyOCwiZXhwIjoxNjY0NjI3NDI4fQ.XCYk5-GfAslgR2aVSwF6aRuw4bcZW1tfsGecaFsHnWg"
+}
+
+###
 
 GET http://localhost:3000/questions
 
@@ -29,35 +61,6 @@ DELETE  http://localhost:3000/question/4
 ### 
 GET http://localhost:3000/question/3/answers
 
-###
-
-POST http://localhost:3000/sign-up HTTP/1.1
-content-type: application/json
-
-{
-    "pseudo": "hean",
-    "password": "jean1",
-    "email": "jean@jean.com"
-}
-
-###
-
-POST http://localhost:3000/login HTTP/1.1
-content-type: application/json
-
-{
-    "pseudo": "hean",
-    "password": "jean1"
-}
-
-###
-GET http://localhost:3000/user/2
-
-###
-
 GET http://localhost:3000/users
 
 ###
-
-
-

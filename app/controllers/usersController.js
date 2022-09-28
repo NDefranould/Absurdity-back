@@ -1,4 +1,13 @@
 const usersModel = require('../models/users');
+const jwt = require("jsonwebtoken");
+
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (jsonObject) => {
+  return jwt.sign( jsonObject, "test1234", {
+    expiresIn: maxAge,
+  });
+};
+
 const usersController = {
     
     /* This is route for search the user by the id */
@@ -29,12 +38,11 @@ const usersController = {
         const {pseudo, password} = req.body;
 
         const result = await usersModel.findByPseudoOrEmail(pseudo, password);
-
+        const token = createToken(result);
         if (!result) {
             res.status(401).json(`User not found`);
         } else {
-            
-            res.json(result);
+            res.status(200).json(token);
         }
         
     },
@@ -43,12 +51,9 @@ const usersController = {
 
        const {pseudo, password, email} = req.body;
 
-       usersModel.create(pseudo,password,email);
-            console.log('user created');
-       res.send('user created');
-    },
-    
-    
+       const status = await usersModel.create(pseudo,password,email);
+       res.send(status);
+    }
 };
 
 module.exports = usersController;

@@ -8,11 +8,10 @@ const usersModel = {
                                         FROM users
                                         JOIN roles ON roles.id = role_id 
                                         WHERE users.id = $1`, [id]);
-
         if (result.rowCount === 0) {
             return undefined;
         }
-
+        delete result.rows[0].password;
         return result.rows[0];
     },
 
@@ -46,6 +45,11 @@ const usersModel = {
     },
     /* This is the route for create new User, is useful for create account */
     async create(pseudo, password, email) {
+        const query = `SELECT * FROM users WHERE pseudo=$1 OR email=$2`;
+        const resultUserExist = await db.query(query,[pseudo,email]);
+        if(resultUserExist.rows[0]){
+            return 'user or email already exist';
+        }else{
         const hash = bcrypt.hashSync(password, 10);
         const result = await db.query(`INSERT INTO "users" (pseudo,password,email) VALUES ($1, $2,$3)`,  [pseudo,hash,email] );
         
@@ -53,7 +57,8 @@ const usersModel = {
             return undefined;
         }
 
-        return result.rows[0];
+            return 'user created';
+        }
 
     }
 };

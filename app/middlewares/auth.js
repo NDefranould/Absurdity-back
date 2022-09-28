@@ -1,10 +1,11 @@
+require('dotenv').config();
 const users = require("../models/users");
 const jwt = require("jsonwebtoken");
 
 module.exports.checkUser = (req, res, next) => {
   const token = req.body.token;
   if (token) {
-    jwt.verify(token,"test1234", //  a remplacer par un .env
+    jwt.verify(token,process.env.PASSPHRASE, //  a remplacer par un .env
       async (err, decodedToken) => {
         if (err) {
           res.json({ tokenStatus: false, error:err });

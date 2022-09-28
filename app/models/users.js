@@ -28,7 +28,7 @@ const usersModel = {
 
     },
     /* This is the route for loggin, is useful for identify user */
-    async findByPseudoOrEmail(pseudo, password) {
+    async login(pseudo, password) {
         const result = await db.query(`SELECT users.id, pseudo, password, email, roles.name AS role
                                         FROM users
                                         JOIN roles ON roles.id = role_id 
@@ -45,7 +45,7 @@ const usersModel = {
         }
     },
     /* This is the route for create new User, is useful for create account */
-    async create(pseudo, password, email) {
+    async signup(pseudo, password, email) {
         const query = `SELECT * FROM users WHERE pseudo=$1 OR email=$2`;
         const resultUserExist = await db.query(query,[pseudo,email]);
         if(resultUserExist.rows[0]){

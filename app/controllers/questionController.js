@@ -3,9 +3,20 @@ const questionsModel = require('../models/questions');
 const questionsController = {
 
 
+
     async getQuestionById(req, res, next) {
         const id = req.params.id;
         const question = await questionsModel.findByPk(id);
+        if (!question) {
+            res.send(`Question not found`)
+        } else {
+            res.json(question);
+        }
+
+    },
+    async getQuestionByIdAnswers(req, res, next) {
+        const id = req.params.id;
+        const question = await questionsModel.findByPkAllAnswers(id);
         if (!question) {
             res.send(`Question not found`)
         } else {

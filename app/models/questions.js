@@ -3,9 +3,20 @@ const db = require('../config/db');
 
 const questionsModel = {
 
+
     async findByPk(id) {
-        const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) FROM questions
-                                       JOIN answers ON answers.question_id = questions.id
+        const result = await db.query(`SELECT  questions.content FROM questions
+                                       WHERE id = $1`, [id]);
+
+        if (result.rowCount === 0) {
+            return undefined;
+        }
+
+        return result.rows[0];
+    },
+    async findByPkAllAnswers(id) {
+        const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
+                                       LEFT JOIN answers ON answers.question_id = questions.id
                                        WHERE questions.id = $1
                                        GROUP BY questions`, [id]);
 
@@ -17,9 +28,9 @@ const questionsModel = {
     },
 
     async findAll() {
-        const result = await db.query(`SELECT questions.content as questions, answers.content as answers, vote_count 
-                                       FROM questions  JOIN answers ON 
-                                       question_id = answers.question_id`);
+        const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
+        LEFT JOIN answers ON answers.question_id = questions.id
+        GROUP BY questions`);
                                        
 
         if (result.rowCount === 0) {

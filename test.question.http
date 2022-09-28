@@ -1,0 +1,31 @@
+GET http://localhost:3000/questions
+
+###
+POST http://localhost:3000/questions
+content-type: application/json
+
+{
+    "content": "est-ce une question ?"
+    
+}
+###
+GET http://localhost:3000/question/7
+
+###
+
+PATCH http://localhost:3000/question/6
+content-type: application/json
+
+{
+    "content": "les fronteux = coloriage !"
+    
+}
+### 
+
+DELETE  http://localhost:3000/question/6
+
+### 
+GET http://localhost:3000/question/1/answers
+
+###
+

@@ -1,21 +1,12 @@
-const {Router, response} = require('express');
+const {Router, response, application} = require('express');
 const router = Router();
 const usersController = require('./controllers/usersController');
 const handlerController = require('./controllers/handlerController');
 const tokenAuth = require('./middlewares/auth');
+const questionRouter = require('./routers/question.router');
 
-/*OK*/ 
-router.get('/questions', handlerController(questionsController.getAllQuestions));
-/*OK*/
-router.post('/questions', handlerController(questionsController.createQuestion));
-/*OK*/
-router.get('/question/:id',handlerController(questionsController.getQuestionById));
-/*OK*/
-router.patch('/question/:id',handlerController(questionsController.updateQuestion));
-/*OK*/
-router.delete('/question/:id',handlerController(questionsController.deleteQuestion));
-/*OK*/
-router.get('/question/:id/answers', handlerController(questionsController.getQuestionByIdAnswers));
+
+router.use(questionRouter);
 
 /* This is the route for create new Account */
 router.post('/sign-up', handlerController(usersController.createUser));

@@ -31,30 +31,6 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/questions
-
-###
-POST http://localhost:3000/questions
-
-<<<<<<< HEAD
-GET http://localhost:3000/question/1
-
-###
-
-PATCH http://localhost:3000/question/5
-content-type: application/json
-
-{
-    "content": "les fronteux = coloriage !"
-    
-}
-### 
-
-DELETE  http://localhost:3000/question/4
-
-### 
-GET http://localhost:3000/question/3/answers
-
 GET http://localhost:3000/users
 
 ###

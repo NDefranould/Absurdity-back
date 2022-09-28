@@ -35,14 +35,8 @@ GET http://localhost:3000/questions
 
 ###
 POST http://localhost:3000/questions
-content-type: application/json
 
-{
-    "content": "pas cette fonctionnalité là !"
-    
-}
-###
-
+<<<<<<< HEAD
 GET http://localhost:3000/question/1
 
 ###

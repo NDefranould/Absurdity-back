@@ -8,6 +8,7 @@ const usersModel = {
                                         FROM users
                                         JOIN roles ON roles.id = role_id 
                                         WHERE users.id = $1`, [id]);
+
         if (result.rowCount === 0) {
             return undefined;
         }
@@ -19,12 +20,12 @@ const usersModel = {
         const result = await db.query(`SELECT pseudo, email, roles.name FROM users
                                        JOIN roles ON roles.id = role_id`);
                                        
-
         if (result.rowCount === 0) {
             return undefined;
         }
+        delete result.rows[0].password;
+        return result.rows[0];
 
-        return result.rows;
     },
     /* This is the route for loggin, is useful for identify user */
     async findByPseudoOrEmail(pseudo, password) {

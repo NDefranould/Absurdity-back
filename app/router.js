@@ -4,7 +4,6 @@ const usersController = require('./controllers/usersController');
 const handlerController = require('./controllers/handlerController');
 const tokenAuth = require('./middlewares/auth');
 
-
 /*OK*/ 
 router.get('/questions', handlerController(questionsController.getAllQuestions));
 /*OK*/
@@ -25,18 +24,8 @@ router.post('/login', handlerController(usersController.findUserByPseudoOrEmail)
 
 /* This is the route for Find user By Id */
 router.get('/user',tokenAuth.checkUser,handlerController(usersController.getUserById));
-
 /*OK*/
 router.get('/users', handlerController(usersController.getAllUsers));
-
-
-
-
-
-
-
-
-
 
 
 module.exports = router;

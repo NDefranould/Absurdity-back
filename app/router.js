@@ -14,10 +14,11 @@ router.post('/sign-up', handlerController(usersController.createUser));
 /* This is the route for Find user By Id */
 router.get('/user/:id',handlerController(usersController.getUserById));
 
-router.get('/question/:id', handlerController(questionsController.getQuestionById));
+router.get('/question/:id/answers', handlerController(questionsController.getQuestionById));
 
 router.get('/questions', handlerController(questionsController.getAllQuestions));
 
+router.post('/questions', handlerController(questionsController.createQuestion));
 
 
 

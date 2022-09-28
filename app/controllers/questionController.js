@@ -24,7 +24,16 @@ const questionsController = {
             res.json(questions);
         }
 
-    }
+    },
+
+    async createQuestion(req, res, next) {
+
+        const {content} = req.body;
+ 
+        questionsModel.create(content);
+             console.log('question created');
+        res.send('question created');
+     }
 
 
 

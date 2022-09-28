@@ -32,10 +32,21 @@ content-type: application/json
 }
 
 ### 
-GET http://localhost:3000/question/2
+GET http://localhost:3000/question/1/answers
 
 ###
 
 GET http://localhost:3000/questions
 
+###
+
+###
+
+POST http://localhost:3000/questions
+content-type: application/json
+
+{
+    "content": "Quel heure est-il ?"
+    
+}
 ###

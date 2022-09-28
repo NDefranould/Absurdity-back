@@ -46,6 +46,31 @@ const questionsController = {
         res.send('question created');
      },
 
+     async updateQuestion(req, res) {
+         
+        const result = await questionsModel.findByPk(req.params.id);
+        
+        if (!result) {
+            console.log("The question don't exist (id)");
+        }
+        if (req.body.content) {
+            const existingQuestion = await questionsModel.isUnique(req.body, req.params.id);
+            
+            if (existingQuestion) {
+                let field;
+                if (existingQuestion.content === req.body.content) {
+                    field = 'content';
+                } else {
+                    console.log(error);
+                    
+                }
+            }
+        }
+
+        const savedQuestion = await questionsModel.update(req.params.id, req.body);
+        return res.json(savedQuestion);
+    },
+
      async deleteQuestion(req, res, next) {
         const result = await questionsModel.findByPk(req.params.id);
         if (!result) {

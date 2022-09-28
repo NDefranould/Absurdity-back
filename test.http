@@ -6,7 +6,7 @@ POST http://localhost:3000/questions
 content-type: application/json
 
 {
-    "content": "Ok ?"
+    "content": "pas cette fonctionnalité là !"
     
 }
 ###
@@ -15,11 +15,16 @@ GET http://localhost:3000/question/1
 
 ###
 
-PATCH http://localhost:3000/question/1
+PATCH http://localhost:3000/question/5
+content-type: application/json
 
+{
+    "content": "les fronteux = coloriage !"
+    
+}
 ### 
 
-DELETE  http://localhost:3000/question/1
+DELETE  http://localhost:3000/question/4
 
 ### 
 GET http://localhost:3000/question/3/answers

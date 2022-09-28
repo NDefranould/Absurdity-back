@@ -8,14 +8,12 @@ const questionsController = require('./controllers/questionController');
 router.get('/questions', handlerController(questionsController.getAllQuestions));
 /*OK*/
 router.post('/questions', handlerController(questionsController.createQuestion));
-
+/*OK*/
 router.get('/question/:id',handlerController(questionsController.getQuestionById));
 
-
+router.patch('/question/:id',handlerController(questionsController.updateQuestion));
+/*OK*/
 router.delete('/question/:id',handlerController(questionsController.deleteQuestion));
-
-
-
 /*OK*/
 router.get('/question/:id/answers', handlerController(questionsController.getQuestionByIdAnswers));
 /* This is the route for create new Account */

@@ -1,0 +1,36 @@
+# SIGNUP
+POST http://localhost:3000/sign-up HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "Romain",
+    "password": "romain",
+    "email": "romain@romain.com"
+}
+
+###
+# LOGIN
+POST http://localhost:3000/login HTTP/1.1
+content-type: application/json
+
+{
+    "pseudo": "Romain",
+    "password": "romain",
+    "email": "romain@romain.com"
+}
+
+###
+
+# GET USER
+GET http://localhost:3000/user
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInBzZXVkbyI6IlJvbWFpbiIsImVtYWlsIjoicm9tYWluQHJvbWFpbi5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDM4NDMyMCwiZXhwIjoxNjY0NjQzNTIwfQ.n7jE6udiZe_vqiTfwGcJXXpms2ReUZFqZ88RIvYblus"
+}
+
+###
+
+GET http://localhost:3000/users
+
+###

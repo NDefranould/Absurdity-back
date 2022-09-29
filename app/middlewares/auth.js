@@ -3,7 +3,7 @@ const users = require("../models/users");
 const jwt = require("jsonwebtoken");
 
 module.exports.checkUser = (req, res, next) => {
-  const token = req.body.token;
+  const token = JSON.parse(req.body.token);
   if (token) {
     jwt.verify(token,process.env.PASSPHRASE, //  a remplacer par un .env
       async (err, decodedToken) => {
@@ -13,6 +13,7 @@ module.exports.checkUser = (req, res, next) => {
           const user = await users.findByPk(decodedToken.id);
             if (user) {
               req.params.id = decodedToken.id;
+              req.params.token = {tokenStatus: true, error: null};
               next();
             }
             else {

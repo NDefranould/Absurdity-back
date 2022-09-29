@@ -16,9 +16,7 @@ app.get('/', (req, res) => {
 app.use(cors());
 app.use(router);
 
-app.use((req,res) =>{ 
-    res.status(404).send(`404, pas de route existante`);
-});
+
 
 app.listen(port, () => {
     console.log(`Server app listening on   http://localhost:${port}`);

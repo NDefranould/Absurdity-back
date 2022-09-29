@@ -61,7 +61,22 @@ const usersModel = {
             return 'user created';
         }
 
-    }
+    },
+     async delete(id) {
+        const result = await db.query('DELETE FROM users WHERE id = $1', [id]);
+        return !!result.rowCount;
+    },
+
+    async update(pseudo, password, email, id) {
+        const hash = bcrypt.hashSync(password, 10);
+        const savedUser = await db.query( `UPDATE users SET pseudo = $1, password = $2, email = $3 
+         WHERE id = $4 RETURNING *`,[pseudo, hash, email, id]
+        );
+           
+        return savedUser.rows[0];
+    },
+
+
 };
 /* commande sql pour récupérer le role (admin ou utilisateur)
  SELECT users.id, pseudo, password, email, roles.name FROM users

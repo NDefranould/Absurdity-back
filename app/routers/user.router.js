@@ -11,7 +11,11 @@ router.post('/sign-up', handlerController(usersController.signup));
 router.post('/login', handlerController(usersController.login));
 
 /* This is the route for Find user By Id */
-router.get('/user',tokenAuth.checkUser,handlerController(usersController.getUserById));
+router.get('/user/:id',tokenAuth.checkUser,handlerController(usersController.getUserById));
+
+router.patch('/user/:id',handlerController(usersController.updateUser));
+/*OK*/
+router.delete('/user/:id',handlerController(usersController.deleteUser));
 /*OK*/
 router.get('/users', handlerController(usersController.getAllUsers));
 

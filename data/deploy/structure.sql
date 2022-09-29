@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS "questions" (
 
 CREATE TABLE IF NOT EXISTS "answers" (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "content" TEXT NOT NULL UNIQUE,
+    "content" TEXT NOT NULL,
     "vote_count" INTEGER NOT NULL DEFAULT '0',
     "user_id" INTEGER NOT NULL REFERENCES users(id),
     "question_id" INTEGER NOT NULL REFERENCES questions(id),

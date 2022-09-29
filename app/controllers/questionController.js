@@ -6,7 +6,7 @@ const questionsController = {
 
 
     async getQuestionById(req, res, next) {
-        const id = req.params.id;
+        const id = req.params.questionId;
         const question = await questionsModel.findByPk(id);
         if (!question) {
             res.send(`Question not found`)
@@ -16,7 +16,7 @@ const questionsController = {
 
     },
     async getQuestionByIdAnswers(req, res, next) {
-        const id = req.params.id;
+        const id = req.params.questionId;
         const question = await questionsModel.findByPkAllAnswers(id);
         if (!question) {
             res.send(`Question not found`)
@@ -49,7 +49,7 @@ const questionsController = {
 
      async updateQuestion(req, res) {
          
-        const result = await questionsModel.findByPk(req.params.id);
+        const result = await questionsModel.findByPk(req.params.questionId);
         
         if (!result) {
             console.log("The question don't exist (id)");
@@ -68,7 +68,7 @@ const questionsController = {
                 return false;
             }
             if  (!await existQuestions()) {
-                const savedQuestion = await questionsModel.update(req.params.id, req.body);
+                const savedQuestion = await questionsModel.update(req.params.questionId, req.body);
                 res.json(savedQuestion);
             } else {
                 res.json("Questions exists");
@@ -78,11 +78,11 @@ const questionsController = {
     },
 
      async deleteQuestion(req, res, next) {
-        const result = await questionsModel.findByPk(req.params.id);
+        const result = await questionsModel.findByPk(req.params.questionId);
         if (!result) {
             throw new ApiError('This question does not exists', { statusCode: 404 });
         }
-        await questionsModel.delete(req.params.id);
+        await questionsModel.delete(req.params.questionId);
         return res.status(204).json();
     },
 

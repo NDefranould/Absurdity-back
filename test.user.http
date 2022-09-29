@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "nicolass",
-    "password": "nicolas",
-    "email": "rnicolas@nicolas.com"
+    "pseudo": "romain7",
+    "password": "romain",
+    "email": "romain7@nicolas.com"
 }
 
 ###
@@ -14,34 +14,53 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "nicolass",
-    "password": "nicolas"
+    "pseudo": "romain3",
+    "password": "romain"
     
 }
+###
+# LOGIN
+POST http://localhost:3000/login HTTP/1.1
+content-type: application/json
 
+{
+    "pseudo": "romain7",
+    "password": "romain",
+    "email": "romain7@nicolas.com"
+}
 ###
 
 # GET USER
-GET http://localhost:3000/user
+POST http://localhost:3000/user
 content-type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInBzZXVkbyI6IlJvbWFpbiIsImVtYWlsIjoicm9tYWluQHJvbWFpbi5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDM4NDMyMCwiZXhwIjoxNjY0NjQzNTIwfQ.n7jE6udiZe_vqiTfwGcJXXpms2ReUZFqZ88RIvYblus"
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInBzZXVkbyI6Im5pY29sYXNzIiwiZW1haWwiOiJybmljb2xhc0BuaWNvbGFzLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0NDg1MzE3LCJleHAiOjE2NjQ3NDQ1MTd9.hq_mQa8LZFL_wDISflmfYOnswV8AHufMvB-nrqS6-g4\""
 }
 
 ###
-PATCH http://localhost:3000/user/22
+PATCH http://localhost:3000/user
 content-type: application/json
 
 {
-    "pseudo": "Romaadddain",
-    "password": "romdddain",
-    "email": "romain@oddin.com"
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInBzZXVkbyI6InJvbWFpbjMiLCJlbWFpbCI6InJvbWFpbjNAbmljb2xhcy5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDQ4OTY2MSwiZXhwIjoxNjY0NzQ4ODYxfQ.AqYZnmgWE3sJIrvPLbKzKTd91qVPLCWWXA4QGvzEmDk\"",
+    "pseudo": "romain2",
+    "password": "romain",
+    "email": "romain3@nicolas.com"
 }
 ###
 
-DELETE  http://localhost:3000/user/23
-###
-GET http://localhost:3000/users
+DELETE  http://localhost:3000/user
+content-type: application/json
 
+{
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInBzZXVkbyI6InJvbWFpbiIsImVtYWlsIjoicm9tYWluQG5pY29sYXMuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjQ0ODg3ODQsImV4cCI6MTY2NDc0Nzk4NH0.X3osN74S6Z29TC20k_hRzq8KQ1ZQ5ed00YZqN3bhBHM\""
+}
+###
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInBzZXVkbyI6Im5pY29sYXNzIiwiZW1haWwiOiJybmljb2xhc0BuaWNvbGFzLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0NDg1MzE3LCJleHAiOjE2NjQ3NDQ1MTd9.hq_mQa8LZFL_wDISflmfYOnswV8AHufMvB-nrqS6-g4\""
+}
 ###

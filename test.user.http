@@ -26,7 +26,7 @@ GET http://localhost:3000/user
 content-type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInBzZXVkbyI6IlJvbWFpbiIsImVtYWlsIjoicm9tYWluQHJvbWFpbi5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDM2ODIyOCwiZXhwIjoxNjY0NjI3NDI4fQ.XCYk5-GfAslgR2aVSwF6aRuw4bcZW1tfsGecaFsHnWg"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInBzZXVkbyI6IlJvbWFpbiIsImVtYWlsIjoicm9tYWluQHJvbWFpbi5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDM4NDMyMCwiZXhwIjoxNjY0NjQzNTIwfQ.n7jE6udiZe_vqiTfwGcJXXpms2ReUZFqZ88RIvYblus"
 }
 
 ###

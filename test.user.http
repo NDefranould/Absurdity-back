@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "Romain",
-    "password": "romain",
-    "email": "romain@romain.com"
+    "pseudo": "Reom11ai1n",
+    "password": "rom1ae1ai1n",
+    "email": "romainea1rom1ai1n.com"
 }
 
 ###
@@ -30,7 +30,18 @@ content-type: application/json
 }
 
 ###
+PATCH http://localhost:3000/user/22
+content-type: application/json
 
+{
+    "pseudo": "Romaadddain",
+    "password": "romdddain",
+    "email": "romain@oddin.com"
+}
+###
+
+DELETE  http://localhost:3000/user/23
+###
 GET http://localhost:3000/users
 
 ###

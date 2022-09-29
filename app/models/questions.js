@@ -72,6 +72,18 @@ const questionsModel = {
         return savedQuestion.rows[0];
     },
 
+    async createAnswer(content,id,questionId) {
+        
+        const result = await db.query(`INSERT INTO answers (content,user_id,question_id) VALUES ($1,$2,$3)`,  [content,id,questionId] );
+        
+        if (result.rowCount === 0 ) {
+            return undefined;
+        }
+
+        return result.rows[0];
+
+    },
+
     
 }
 

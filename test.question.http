@@ -29,3 +29,11 @@ GET http://localhost:3000/question/1/answers
 
 ###
 
+POST http://localhost:3000/question/1/answer
+content-type: application/json
+
+{
+    "content": "les fronteduex = coloriage !",
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwicHNldWRvIjoibmljb2xhc3MiLCJlbWFpbCI6InJuaWNvbGFzQG5pY29sYXMuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjQ0NjkwMjUsImV4cCI6MTY2NDcyODIyNX0.34RJHAAeceVzBC0JdYRtjd5F_bDjn8QFrycxMyNBh2I\""
+    
+}

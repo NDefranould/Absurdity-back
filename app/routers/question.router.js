@@ -18,4 +18,6 @@ router.delete('/question/:id',handlerController(questionsController.deleteQuesti
 /*OK*/
 router.get('/question/:id/answers', handlerController(questionsController.getQuestionByIdAnswers));
 
+router.post('/question/:questionId/answer',tokenAuth.checkUser,handlerController(questionsController.getQuestionByIdAndCreateAnswer));
+
 module.exports = router;

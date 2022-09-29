@@ -84,6 +84,17 @@ const questionsController = {
         }
         await questionsModel.delete(req.params.id);
         return res.status(204).json();
+    },
+
+    async getQuestionByIdAndCreateAnswer(req, res, next) {
+        
+                const {content} = req.body
+               
+                const {id, questionId} = req.params
+ 
+        questionsModel.createAnswer(content,id,questionId);
+             console.log('answer add');
+        res.json('answer add');
     }
         
 

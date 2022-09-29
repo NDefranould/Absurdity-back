@@ -13,11 +13,11 @@ GET http://localhost:3000/question/7
 
 ###
 
-PATCH http://localhost:3000/question/6
+PATCH http://localhost:3000/question/5
 content-type: application/json
 
 {
-    "content": "les fronteux = coloriage !"
+    "content": "les eeteux = coloriage !"
     
 }
 ### 

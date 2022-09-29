@@ -1,5 +1,6 @@
 const questionsModel = require('../models/questions');
-
+const db = require('../config/db');
+const { host } = require('pg/lib/defaults');
 const questionsController = {
 
 
@@ -52,23 +53,28 @@ const questionsController = {
         
         if (!result) {
             console.log("The question don't exist (id)");
-        }
-        if (req.body.content) {
-            const existingQuestion = await questionsModel.isUnique(req.body, req.params.id);
+        }else {
             
-            if (existingQuestion) {
-                let field;
-                if (existingQuestion.content === req.body.content) {
-                    field = 'content';
-                } else {
-                    console.log(error);
-                    
-                }
+            const dbQuestions = await db.query(`SELECT questions.content FROM questions`);
+                
+            const existQuestions =  async function() {
+                for (let index = 0; index < dbQuestions.rowCount; index++) {
+                    let element = await dbQuestions.rows[index];
+                    if(req.body.content === element.content) {
+                        console.log('questions exists');
+                        return true
+                    } 
+                } 
+                return false;
             }
-        }
+            if  (!await existQuestions()) {
+                const savedQuestion = await questionsModel.update(req.params.id, req.body);
+                res.json(savedQuestion);
+            } else {
+                res.json("Questions exists");
+            }
 
-        const savedQuestion = await questionsModel.update(req.params.id, req.body);
-        return res.json(savedQuestion);
+        }
     },
 
      async deleteQuestion(req, res, next) {

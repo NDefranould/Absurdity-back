@@ -17,7 +17,7 @@ router.patch('/question/:questionId',handlerController(questionsController.updat
 router.delete('/question/:questionId',handlerController(questionsController.deleteQuestion));
 
 /*recupere la question et ses answers*/
-router.post('/question/:questionId/answers', handlerController(questionsController.getQuestionByIdAnswers));
+router.get('/question/:questionId/answers', handlerController(questionsController.getQuestionByIdAnswers));
 
 // route pour poster une answer
 router.post('/question/:questionId/answer',tokenAuth.checkUser,handlerController(questionsController.getQuestionByIdAndCreateAnswer));

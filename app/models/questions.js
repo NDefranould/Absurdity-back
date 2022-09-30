@@ -23,10 +23,12 @@ const questionsModel = {
                                        GROUP BY questions`, [id]);
 
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false,404,'User not found.', result);   
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true,200,'User found.', result.rows[0]);
+            return resultInfo.getInfos();
         }
-
-        return result.rows[0];
     },
 
     async findAll() {

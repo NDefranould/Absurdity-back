@@ -8,20 +8,19 @@ const questionsController = {
     async getQuestionById(req, res, next) {
 
         const id = req.params.questionId;
-        console.log(id);
         const result = await questionsModel.findByPk(id);
         
         res.status(result.statusCode).json(result);
 
     },
+
     async getQuestionByIdAnswers(req, res, next) {
+
         const id = req.params.questionId;
-        const question = await questionsModel.findByPkAllAnswers(id);
-        if (!question) {
-            res.send(`Question not found`)
-        } else {
-            res.json(question);
-        }
+        const result = await questionsModel.findByPkAllAnswers(id);
+        
+        res.status(result.statusCode).json(result);
+        
 
     },
 

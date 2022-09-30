@@ -1,5 +1,5 @@
 const db = require('../config/db');
-
+const ResultInfos = require('./resultInfo');
 
 const questionsModel = {
 
@@ -9,10 +9,12 @@ const questionsModel = {
                                        WHERE id = $1`, [id]);
 
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false,404,'User not found.', result);   
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true,200,'User found.', result.rows[0]);
+            return resultInfo.getInfos();
         }
-
-        return result.rows[0];
     },
     async findByPkAllAnswers(id) {
         const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions

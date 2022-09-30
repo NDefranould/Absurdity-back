@@ -60,8 +60,16 @@ const questionsModel = {
 
     },
     async delete(id) {
+        const resultExist = await questionsModel.findByPk(id);
+        
+        if (resultExist.data.rowCount === 0) {
+            const resultInfo = new ResultInfos(false,404,'This Question does not exists.', resultExist.rows);
+            return resultInfo.getInfos();
+        }
         const result = await db.query('DELETE FROM questions WHERE id = $1', [id]);
-        return !!result.rowCount;
+        
+        const resultInfo = new ResultInfos(true,200,'Question deleted.', result.rows[0]);
+        return resultInfo.getInfos();
     },
     async update(question, id) {
         const query = `UPDATE questions 

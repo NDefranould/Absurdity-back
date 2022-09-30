@@ -48,12 +48,9 @@ const questionsController = {
     },
 
      async deleteQuestion(req, res, next) {
-        const result = await questionsModel.findByPk(req.params.questionId);
-        if (!result) {
-            throw new ApiError('This question does not exists', { statusCode: 404 });
-        }
-        await questionsModel.delete(req.params.questionId);
-        return res.status(204).json();
+        const result = await questionsModel.delete(req.params.questionId);
+        
+        res.status(result.statusCode).json(result);
     },
 
     async getQuestionByIdAndCreateAnswer(req, res, next) {

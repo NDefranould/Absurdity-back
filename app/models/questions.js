@@ -92,10 +92,10 @@ const questionsModel = {
                                      VALUES ($1,$2,$3)`, [content, id, questionId]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', null);
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t anwser created.', null);
             return resultInfo.getInfos();
         } else {
-            const resultInfo = new ResultInfos(true, 200, 'Question updated.', result.rows[0]);
+            const resultInfo = new ResultInfos(true, 200, 'Answer created.', result.rows[0]);
             return resultInfo.getInfos();
         }
 

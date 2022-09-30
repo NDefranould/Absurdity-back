@@ -26,13 +26,9 @@ const questionsController = {
 
     async getAllQuestions(req, res, next) {
 
-        const questions = await questionsModel.findAll();
-        console.log(questions);
-        if (!questions) {
-            res.send(`Questions not found`)
-        } else {
-            res.json(questions);
-        }
+        const result = await questionsModel.findAll();
+        
+        res.status(result.statusCode).json(result);
 
     },
 

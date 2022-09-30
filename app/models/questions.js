@@ -33,15 +33,16 @@ const questionsModel = {
 
     async findAll() {
         const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
-        LEFT JOIN answers ON answers.question_id = questions.id
-        GROUP BY questions`);
+                                       LEFT JOIN answers ON answers.question_id = questions.id
+                                       GROUP BY questions`);
                                        
-
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false,404,'User not found.', result);   
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true,200,'User found.', result.rows);
+            return resultInfo.getInfos();
         }
-
-        return result.rows;
     },
 
     async create(content) {

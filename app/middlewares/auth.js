@@ -27,9 +27,15 @@ module.exports.checkUser = handlerController((req, res, next) => {
         };
 
         if(tokenAuth.tokenStatus === true && tokenAuth.error === null){
-          req.params.id = decodedToken.id;
-          req.params.token = tokenAuth;
-          next();
+          console.log(req.url);
+          if(req.url === '/checkuser'){
+            tokenAuth.queryStatus = true;
+            res.status(200).json(tokenAuth);
+          }else{
+            req.params.id = decodedToken.id;
+            req.params.token = tokenAuth;
+            next();
+        }
         }else{
           res.status(511).json({tokenAuth});
         }

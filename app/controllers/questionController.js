@@ -6,95 +6,61 @@ const questionsController = {
 
 
     async getQuestionById(req, res, next) {
+
         const id = req.params.questionId;
-        const question = await questionsModel.findByPk(id);
-        if (!question) {
-            res.send(`Question not found`)
-        } else {
-            res.json(question);
-        }
+        const result = await questionsModel.findByPk(id);
+        
+        res.status(result.statusCode).json(result);
 
     },
+
     async getQuestionByIdAnswers(req, res, next) {
+
         const id = req.params.questionId;
-        const question = await questionsModel.findByPkAllAnswers(id);
-        if (!question) {
-            res.send(`Question not found`)
-        } else {
-            res.json(question);
-        }
+        const result = await questionsModel.findByPkAllAnswers(id);
+        
+        res.status(result.statusCode).json(result);
+        
 
     },
 
     async getAllQuestions(req, res, next) {
 
-        const questions = await questionsModel.findAll();
-        console.log(questions);
-        if (!questions) {
-            res.send(`Questions not found`)
-        } else {
-            res.json(questions);
-        }
+        const result = await questionsModel.findAll();
+        
+        res.status(result.statusCode).json(result);
 
     },
 
     async createQuestion(req, res, next) {
 
         const {content} = req.body;
- 
-        questionsModel.create(content);
-             console.log('question created');
-        res.send('question created');
+        const result = await questionsModel.create(content);
+             
+        res.status(result.statusCode).json(result);
      },
 
      async updateQuestion(req, res) {
          
-        const result = await questionsModel.findByPk(req.params.questionId);
-        
-        if (!result) {
-            console.log("The question don't exist (id)");
-        }else {
-            
-            const dbQuestions = await db.query(`SELECT questions.content FROM questions`);
-                
-            const existQuestions =  async function() {
-                for (let index = 0; index < dbQuestions.rowCount; index++) {
-                    let element = await dbQuestions.rows[index];
-                    if(req.body.content === element.content) {
-                        console.log('questions exists');
-                        return true
-                    } 
-                } 
-                return false;
-            }
-            if  (!await existQuestions()) {
-                const savedQuestion = await questionsModel.update(req.params.questionId, req.body);
-                res.json(savedQuestion);
-            } else {
-                res.json("Questions exists");
-            }
+        const result = await questionsModel.update(req.body.content, req.params.questionId);
 
-        }
+        res.status(result.statusCode).json(result); 
     },
 
      async deleteQuestion(req, res, next) {
-        const result = await questionsModel.findByPk(req.params.questionId);
-        if (!result) {
-            throw new ApiError('This question does not exists', { statusCode: 404 });
-        }
-        await questionsModel.delete(req.params.questionId);
-        return res.status(204).json();
+        const result = await questionsModel.delete(req.params.questionId);
+
+        res.status(result.statusCode).json(result);
     },
 
     async getQuestionByIdAndCreateAnswer(req, res, next) {
         
-                const {content} = req.body
+            const {content} = req.body
                
-                const {id, questionId} = req.params
+            const {id, questionId} = req.params
  
-        questionsModel.createAnswer(content,id,questionId);
-             console.log('answer add');
-        res.json('answer add');
+            const result = await questionsModel.createAnswer(content,id,questionId);
+            res.status(result.statusCode).json(result);
     }
         
 

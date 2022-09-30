@@ -14,7 +14,7 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "romain3",
+    "pseudo": "romain7",
     "password": "romain"
     
 }

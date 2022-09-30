@@ -35,10 +35,9 @@ const questionsController = {
     async createQuestion(req, res, next) {
 
         const {content} = req.body;
- 
-        questionsModel.create(content);
-             console.log('question created');
-        res.send('question created');
+        const result = await questionsModel.create(content);
+             
+        res.status(result.statusCode).json(result);
      },
 
      async updateQuestion(req, res) {

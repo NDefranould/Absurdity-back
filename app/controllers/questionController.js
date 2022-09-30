@@ -49,19 +49,18 @@ const questionsController = {
 
      async deleteQuestion(req, res, next) {
         const result = await questionsModel.delete(req.params.questionId);
-        
+
         res.status(result.statusCode).json(result);
     },
 
     async getQuestionByIdAndCreateAnswer(req, res, next) {
         
-                const {content} = req.body
+            const {content} = req.body
                
-                const {id, questionId} = req.params
+            const {id, questionId} = req.params
  
-        questionsModel.createAnswer(content,id,questionId);
-             console.log('answer add');
-        res.json('answer add');
+            const result = await questionsModel.createAnswer(content,id,questionId);
+            res.status(result.statusCode).json(result);
     }
         
 

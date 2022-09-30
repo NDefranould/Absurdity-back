@@ -61,21 +61,21 @@ const questionsModel = {
     },
     async delete(id) {
         const resultExist = await questionsModel.findByPk(id);
-        
+
         if (resultExist.data.rowCount === 0) {
-            const resultInfo = new ResultInfos(false,404,'This Question does not exists.', resultExist.rows);
+            const resultInfo = new ResultInfos(false, 404, 'This Question does not exists.', resultExist.rows);
             return resultInfo.getInfos();
         }
         const result = await db.query('DELETE FROM questions WHERE id = $1', [id]);
-        
-        const resultInfo = new ResultInfos(true,200,'Question deleted.', result.rows[0]);
+
+        const resultInfo = new ResultInfos(true, 200, 'Question deleted.', result.rows[0]);
         return resultInfo.getInfos();
     },
     async update(question, id) {
         const query = `UPDATE questions 
                        SET content = $1 WHERE id = $2`
         const result = await db.query(query, [question, id]);
-        
+
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', result);
             return resultInfo.getInfos();
@@ -87,13 +87,16 @@ const questionsModel = {
 
     async createAnswer(content, id, questionId) {
 
-        const result = await db.query(`INSERT INTO answers (content,user_id,question_id) VALUES ($1,$2,$3)`, [content, id, questionId]);
+        const result = await db.query(`INSERT INTO answers (content,user_id,question_id)
+                                     VALUES ($1,$2,$3)`, [content, id, questionId]);
 
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', result);
+            return resultInfo.getInfos();
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Question updated.', result.rows[0]);
+            return resultInfo.getInfos();
         }
-
-        return result.rows[0];
 
     },
 

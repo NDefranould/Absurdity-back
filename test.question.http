@@ -5,19 +5,19 @@ POST http://localhost:3000/questions
 content-type: application/json
 
 {
-    "content": "est-ce une question ?"
+    "content": "bonjour ?"
     
 }
 ###
-GET http://localhost:3000/question/7
+GET http://localhost:3000/question/1
 
 ###
 
-PATCH http://localhost:3000/question/5
+PATCH http://localhost:3000/question/1
 content-type: application/json
 
 {
-    "content": "les eeteux = coloriage !"
+    "content": "coucou les loulou !"
     
 }
 ### 
@@ -25,7 +25,7 @@ content-type: application/json
 DELETE  http://localhost:3000/question/6
 
 ### 
-GET http://localhost:3000/question/1/answers
+GET http://localhost:3000/question/2/answers
 
 ###
 

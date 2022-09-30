@@ -42,32 +42,9 @@ const questionsController = {
 
      async updateQuestion(req, res) {
          
-        const result = await questionsModel.findByPk(req.params.questionId);
-        
-        if (!result) {
-            console.log("The question don't exist (id)");
-        }else {
-            
-            const dbQuestions = await db.query(`SELECT questions.content FROM questions`);
-                
-            const existQuestions =  async function() {
-                for (let index = 0; index < dbQuestions.rowCount; index++) {
-                    let element = await dbQuestions.rows[index];
-                    if(req.body.content === element.content) {
-                        console.log('questions exists');
-                        return true
-                    } 
-                } 
-                return false;
-            }
-            if  (!await existQuestions()) {
-                const savedQuestion = await questionsModel.update(req.params.questionId, req.body);
-                res.json(savedQuestion);
-            } else {
-                res.json("Questions exists");
-            }
+        const result = await questionsModel.update(req.body.content, req.params.questionId);
 
-        }
+        res.status(result.statusCode).json(result); 
     },
 
      async deleteQuestion(req, res, next) {

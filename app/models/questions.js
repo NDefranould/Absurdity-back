@@ -9,10 +9,10 @@ const questionsModel = {
                                        WHERE id = $1`, [id]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'User not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'Question not found.', result);
             return resultInfo.getInfos()
         } else {
-            const resultInfo = new ResultInfos(true, 200, 'User found.', result.rows[0]);
+            const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
             return resultInfo.getInfos();
         }
     },
@@ -23,10 +23,10 @@ const questionsModel = {
                                        GROUP BY questions`, [id]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'User not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'Question not found.', result);
             return resultInfo.getInfos()
         } else {
-            const resultInfo = new ResultInfos(true, 200, 'User found.', result.rows[0]);
+            const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
             return resultInfo.getInfos();
         }
     },
@@ -37,10 +37,10 @@ const questionsModel = {
                                        GROUP BY questions`);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'User not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'Questions not found.', result);
             return resultInfo.getInfos()
         } else {
-            const resultInfo = new ResultInfos(true, 200, 'User found.', result.rows);
+            const resultInfo = new ResultInfos(true, 200, 'Questions found.', result.rows);
             return resultInfo.getInfos();
         }
     },
@@ -54,7 +54,7 @@ const questionsModel = {
             const resultInfo = new ResultInfos(false, 404, 'User not found.', result);
             return resultInfo.getInfos()
         } else {
-            const resultInfo = new ResultInfos(true, 200, 'User found.', result.rows[0]);
+            const resultInfo = new ResultInfos(true, 200, 'Question created.', result.rows[0]);
             return resultInfo.getInfos();
         }
 
@@ -63,21 +63,18 @@ const questionsModel = {
         const result = await db.query('DELETE FROM questions WHERE id = $1', [id]);
         return !!result.rowCount;
     },
-    async update(id, question) {
-        const fields = Object.keys(question).map((prop, index) => `"${prop}" = $${index + 1}`);
-        const values = Object.values(question);
-
-        const savedQuestion = await db.query(
-            `
-                UPDATE questions SET
-                    ${fields}
-                WHERE id = $${fields.length + 1}
-                RETURNING *
-            `,
-            [...values, id],
-        );
-
-        return savedQuestion.rows[0];
+    async update(question, id) {
+        const query = `UPDATE questions 
+                       SET content = $1 WHERE id = $2`
+        const result = await db.query(query, [question, id]);
+        
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', result);
+            return resultInfo.getInfos();
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Question updated.', result.rows[0]);
+            return resultInfo.getInfos();
+        }
     },
 
     async createAnswer(content, id, questionId) {

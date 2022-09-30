@@ -9,7 +9,8 @@ const questionsModel = {
                                        WHERE id = $1`, [id]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'Question not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'Question not found.',null);
+            
             return resultInfo.getInfos()
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
@@ -23,7 +24,7 @@ const questionsModel = {
                                        GROUP BY questions`, [id]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'Question not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'Question not found.', null);
             return resultInfo.getInfos()
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
@@ -37,7 +38,7 @@ const questionsModel = {
                                        GROUP BY questions`);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'Questions not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'Questions not found.', null);
             return resultInfo.getInfos()
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Questions found.', result.rows);
@@ -51,7 +52,7 @@ const questionsModel = {
                                        (content) VALUES ($1)`, [content]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'User not found.', result);
+            const resultInfo = new ResultInfos(false, 404, 'User not found.', null);
             return resultInfo.getInfos()
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Question created.', result.rows[0]);
@@ -63,7 +64,7 @@ const questionsModel = {
         const resultExist = await questionsModel.findByPk(id);
 
         if (resultExist.data.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'This Question does not exists.', resultExist.rows);
+            const resultInfo = new ResultInfos(false, 404, 'This Question does not exists.', null);
             return resultInfo.getInfos();
         }
         const result = await db.query('DELETE FROM questions WHERE id = $1', [id]);
@@ -77,7 +78,7 @@ const questionsModel = {
         const result = await db.query(query, [question, id]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', result);
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', null);
             return resultInfo.getInfos();
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Question updated.', result.rows[0]);
@@ -91,7 +92,7 @@ const questionsModel = {
                                      VALUES ($1,$2,$3)`, [content, id, questionId]);
 
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', result);
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', null);
             return resultInfo.getInfos();
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Question updated.', result.rows[0]);

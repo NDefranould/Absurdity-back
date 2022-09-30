@@ -7,7 +7,7 @@ module.exports.checkUser = handlerController((req, res, next) => {
   const resToken = JSON.parse(req.body.token);
   const tokenAuth = {tokenStatus: false, error: null};
   if (resToken) {
-    jwt.verify(resToken,process.env.PASSPHRASE, //  a remplacer par un .env
+    jwt.verify(resToken,process.env.PASSPHRASE, 
       async (err, decodedToken) => {
         if (err) {
           tokenAuth.error = 'The token is invalid.';

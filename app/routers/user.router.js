@@ -5,23 +5,24 @@ const handlerController = require('../controllers/handlerController');
 const usersController = require('../controllers/usersController');
 const tokenAuth = require('../middlewares/auth');
 
-/* This is the route for create new Account */
-router.post('/sign-up', handlerController(usersController.signup));
-// This is the route for the validation of connexion
-router.post('/login', handlerController(usersController.login));
+/*Not connected*/
+/*This is the route for create new Account*/
+router.post('/sign-up',handlerController(usersController.signup));
+/*This is the route for the validation of connexion*/
+router.post('/login',handlerController(usersController.login));
 
-router.post('/checkuser',tokenAuth.checkUser);
-
-// Route can't access if not logged
-/* This is the route for Find user By Id */
+/*Connected*/
+/*This is the route for Find user By Id */
 router.post('/user',tokenAuth.checkUser,handlerController(usersController.getOneByPk));
-
+/*This is the route for verify token for front*/
+router.post('/checkuser',tokenAuth.checkUser);
+/*This is the route for update the account of the user */
 router.patch('/user',tokenAuth.checkUser,handlerController(usersController.update));
-/*OK*/
+/*This is the route for delete the account of the user */
 router.delete('/user',tokenAuth.checkUser,handlerController(usersController.delete));
-/*OK*/
 
-// Route pour un admin
+/*Admin*/
+/*This is the route for watch all users*/
 router.post('/users',tokenAuth.checkUser, handlerController(usersController.getAll));
 
 module.exports = router;

@@ -18,7 +18,7 @@ const usersModel = {
         const resultUserExist = await db.query(queryUserExist,[pseudo,email]);
 
         if(resultUserExist.rows[0]){
-            const resultInfo = new ResultInfos(false,400,'Username Or Email adress is already used.', null);   
+            const resultInfo = new ResultInfos(false,409,'Username Or Email adress is already used.', null);   
             return resultInfo.getInfos();
         }else{
             const hash = bcrypt.hashSync(password, 10);

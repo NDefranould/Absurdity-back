@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS "questions" (
     "content" TEXT NOT NULL UNIQUE,
     "already_asked" BOOLEAN NOT NULL DEFAULT '0',
     "date_of_publication" TIMESTAMPTZ,
+    "question_of_the_day" BOOLEAN NOT NULL DEFAULT '0',
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ 
 );
@@ -65,12 +66,13 @@ INSERT INTO "users" (pseudo,password,email, role_id) VALUES
  
  INSERT INTO "questions" (content, already_asked, date_of_publication) VALUES
  ('Savez-vous planter des choux ?', '1', CURRENT_TIMESTAMP);
+
  INSERT INTO "answers" (content, vote_count, user_id, question_id) VALUES 
  ('oui.', 532, 6, 1),
  ('Choux. Fleur. Choux. Fleur.', 385, 7, 1),
  ('c koi 1 chou ? xptdr', 198, 8, 1);
 
- INSERT INTO "questions" (content) VALUES
- ('Qu"est qui est Jonathan ?');
+ INSERT INTO "questions" (content, question_of_the_day) VALUES
+ ('Qu"est qui est Jonathan ?', '1');
 
 COMMIT;

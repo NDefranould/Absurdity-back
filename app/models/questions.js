@@ -88,6 +88,18 @@ const questionsModel = {
 
     async createAnswer(content, id, questionId) {
 
+        
+            
+            const queryVerify = `SELECT questions.content AS questions , answers.user_id AS user_id FROM questions
+                                 LEFT JOIN answers ON answers.question_id = questions.id
+                                 WHERE questions.id = $1 AND answers.user_id = $2`;
+                                    
+            const resultVerify = await db.query(queryVerify, [pseudo,email]);
+            if(resultVerify.rowCount >= 1){
+                const resultInfo = new ResultInfos(false,400,'Can\'t update. Email/Username Already exist', null);   
+                return resultInfo.getInfos();
+            } 
+        
         const result = await db.query(`INSERT INTO answers (content,user_id,question_id)
                                      VALUES ($1,$2,$3)`, [content, id, questionId]);
 

@@ -39,7 +39,7 @@ const usersController = {
         const {pseudo, password, email} = req.body
         const result = await usersModel.update(pseudo, password, email, req.params.id);
 
-        res.status(result.statusCode).json(result);
+        res.json(result);
     },
 
     /*  This is the route for delete User */

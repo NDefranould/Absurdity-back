@@ -31,6 +31,7 @@ const questionsController = {
         res.status(result.statusCode).json(result);
 
     },
+    
     /*This the road for create question*/ 
     async createQuestion(req, res, next) {
 

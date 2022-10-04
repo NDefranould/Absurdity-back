@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "aaaa",
-    "password": "ba",
-    "email": "aba@"
+    "pseudo": "c",
+    "password": "c",
+    "email": "c@"
 }
 
 ###
@@ -14,8 +14,8 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "aaa",
-    "password": "b"
+    "pseudo": "c",
+    "password": "c"
     
 }
 ###
@@ -43,10 +43,10 @@ PATCH http://localhost:3000/user
 content-type: application/json
 
 {
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInBzZXVkbyI6InJvbWFpbjE2IiwiZW1haWwiOiJyb21haW4zQGdhbWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0NTQ2Mzg5LCJleHAiOjE2NjQ4MDU1ODl9.GJXJ3hddbqKkIXgK4ozkQE-tVCwGg5czALI_B3oRehw\"",
-    "pseudo": "romain16",
-    "password": "romain",
-    "email": "romain3@hotmail.com"
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImMiLCJlbWFpbCI6ImNAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjQ4Nzc1MDQsImV4cCI6MTY2NTEzNjcwNH0.cLqWsHI-pe5v1D6cDZ6Y1FiudmvyN2iaZkh3jaCghwY\"",
+    
+    "password": "romain"
+    
 }
 ###
 

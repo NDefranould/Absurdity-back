@@ -67,9 +67,21 @@ const questionsController = {
     async votedAnswer(req, res, next) {
 
         const {answerId} = req.params
-        console.log(answerId);
-        // const result = await questionsModel.voted(content,id,questionId);
-        // res.status(result.statusCode).json(result);
+        const userId = req.params.id
+        const {questionId} = req.body
+
+        const result = await questionsModel.voted(userId,questionId,answerId);
+        res.status(result.statusCode).json(result);
+    },
+
+    async unvotedAnswer(req, res, next) {
+
+        const userId = req.params.id
+        const {questionId} = req.body
+        const {answerId} = req.params
+
+        const result = await questionsModel.unvoted(userId,questionId, answerId);
+        res.status(result.statusCode).json(result);
     }
         
 

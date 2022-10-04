@@ -33,9 +33,11 @@ const questionsModel = {
     },
 
     async findAll() {
-        const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
+        const result = await db.query(`SELECT questions.content AS questions , questions.date_of_publication AS date, ARRAY_AGG(answers.content) AS answers, ARRAY_AGG(vote_count) AS vote FROM questions
                                        LEFT JOIN answers ON answers.question_id = questions.id
-                                       GROUP BY questions`);
+                                       WHERE questions.date_of_publication IS NOT NULL
+                                       GROUP BY questions.content, questions.date_of_publication
+                                       ORDER BY questions.date_of_publication DESC`);
 
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Questions not found.', null);
@@ -45,6 +47,7 @@ const questionsModel = {
             return resultInfo.getInfos();
         }
     },
+
 
     async create(content) {
 
@@ -88,15 +91,15 @@ const questionsModel = {
 
     async createAnswer(content, id, questionId) {
 
-        
-            
             const queryVerify = `SELECT questions.content AS questions , answers.user_id AS user_id FROM questions
                                  LEFT JOIN answers ON answers.question_id = questions.id
-                                 WHERE questions.id = $1 AND answers.user_id = $2`;
+                                 WHERE answers.user_id = $1  AND questions.id = $2 `;
                                     
-            const resultVerify = await db.query(queryVerify, [pseudo,email]);
-            if(resultVerify.rowCount >= 1){
-                const resultInfo = new ResultInfos(false,400,'Can\'t update. Email/Username Already exist', null);   
+            const resultVerify = await db.query(queryVerify, [id,questionId]);
+            console.log('a',resultVerify);
+           
+            if(resultVerify.rowCount > 0){
+                const resultInfo = new ResultInfos(false,400,'Can\'t put more one answer by questions', null);   
                 return resultInfo.getInfos();
             } 
         

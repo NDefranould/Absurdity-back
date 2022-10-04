@@ -5,7 +5,8 @@ POST http://localhost:3000/questions
 content-type: application/json
 
 {
-    "content": "bonjeaeceaaaaaaaao ?"
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInBzZXVkbyI6ImFhYSIsImVtYWlsIjoiYWJhQCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0ODcwMjc1LCJleHAiOjE2NjUxMjk0NzV9.1r7UI-kLWe-a14O_vsU81C2JZFLYPwnBBI8IcdxBIng\"",
+    "content": "bonaaezcaaaeeaaaaao ?"
     
 }
 ###
@@ -33,7 +34,16 @@ POST http://localhost:3000/question/1/answer
 content-type: application/json
 
 {
-    "content": "les fronteduex = merd !",
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInBzZXVkbyI6InJvbWFpbjciLCJlbWFpbCI6InJvbWFpbjdAbmljb2xhcy5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDUzOTIzOCwiZXhwIjoxNjY0Nzk4NDM4fQ.jK9CVspMB7Ik73XmjUVRKSPt3daduoe8oHI2M7Ed_0o\""
+    "content": "ça va fonctionae ?!",
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInBzZXVkbyI6ImFhYSIsImVtYWlsIjoiYWJhQCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0ODcwMjc1LCJleHAiOjE2NjUxMjk0NzV9.1r7UI-kLWe-a14O_vsU81C2JZFLYPwnBBI8IcdxBIng\""
+    
+}
+
+###
+POST http://localhost:3000/answer/1/voted
+content-type: application/json
+
+{
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInBzZXVkbyI6ImFhYSIsImVtYWlsIjoiYWJhQCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0ODc0MjYwLCJleHAiOjE2NjUxMzM0NjB9.zeL-6Zk5a6bvyYKvrKnpDK-fdD_cNS7Oz2gQjQMRZqg\""
     
 }

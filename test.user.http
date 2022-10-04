@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "romain15",
-    "password": "romain",
-    "email": "romain7@nicos.com"
+    "pseudo": "aaaa",
+    "password": "ba",
+    "email": "aba@"
 }
 
 ###
@@ -14,8 +14,8 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "romain16",
-    "password": "romain"
+    "pseudo": "aaa",
+    "password": "b"
     
 }
 ###

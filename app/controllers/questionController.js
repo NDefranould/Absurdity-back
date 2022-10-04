@@ -62,6 +62,14 @@ const questionsController = {
  
             const result = await questionsModel.createAnswer(content,id,questionId);
             res.status(result.statusCode).json(result);
+    },
+
+    async votedAnswer(req, res, next) {
+
+        const {answerId} = req.params
+        console.log(answerId);
+        // const result = await questionsModel.voted(content,id,questionId);
+        // res.status(result.statusCode).json(result);
     }
         
 

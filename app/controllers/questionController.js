@@ -1,8 +1,11 @@
 const questionsModel = require('../models/questions');
-const db = require('../config/db');
-const { host } = require('pg/lib/defaults');
+
 const questionsController = {
 
+    async getQuestionOfTheDay(req, res, next){
+        const result = await questionsModel.getQuestionOfTheDay();
+        res.status(result.statusCode).json(result);
+    },
 
     /*This the road get only question*/ 
     async getQuestionById(req, res, next) {
@@ -26,7 +29,7 @@ const questionsController = {
     /*This the road get all questions and answers*/ 
     async getAllQuestions(req, res, next) {
 
-        const result = await questionsModel.findAll();
+        const result = await questionsModel.getAll();
         
         res.status(result.statusCode).json(result);
 

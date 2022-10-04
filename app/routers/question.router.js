@@ -6,6 +6,9 @@ const questionsController = require('../controllers/questionController');
 const tokenAuth = require('../middlewares/auth');
 
 /*Not connected*/
+
+/*This the road get question of the day without answer*/ 
+router.get('/dailyquestion', handlerController(questionsController.getQuestionOfTheDay));
 /*This the road get all questions and answers*/ 
 router.get('/questions', handlerController(questionsController.getAllQuestions));
 /*This the road get only question*/ 

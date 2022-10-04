@@ -1,5 +1,5 @@
 const db = require('../config/db');
-
+const ResultInfos = require('./resultInfo');
 
 const questionsModel = {
 
@@ -9,10 +9,13 @@ const questionsModel = {
                                        WHERE id = $1`, [id]);
 
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false, 404, 'Question not found.',null);
+            
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
+            return resultInfo.getInfos();
         }
-
-        return result.rows[0];
     },
     async findByPkAllAnswers(id) {
         const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
@@ -21,69 +24,103 @@ const questionsModel = {
                                        GROUP BY questions`, [id]);
 
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false, 404, 'Question not found.', null);
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
+            return resultInfo.getInfos();
         }
-
-        return result.rows[0];
     },
 
     async findAll() {
-        const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
-        LEFT JOIN answers ON answers.question_id = questions.id
-        GROUP BY questions`);
-                                       
+        const result = await db.query(`SELECT questions.content,questions.date_pub AS date_pub,ARRAY_AGG(questions.request) AS list_answers
+                                       FROM (SELECT questions.content,questions.date_of_publication AS date_pub,
+                                       ARRAY(select json_build_object('answer',answers.content,'vote',answers.vote_count)) as request FROM questions
+                                       LEFT JOIN answers ON answers.question_id = questions.id
+                                       WHERE questions.date_of_publication IS NOT NULL
+                                       GROUP BY questions.content,date_pub,answers.content,answers.vote_count
+                                       ORDER BY answers.vote_count DESC) as questions
+                                       GROUP BY  questions.content,questions.date_pub 
+                                       ORDER BY date_pub DESC`);
 
         if (result.rowCount === 0) {
-            return undefined;
+            const resultInfo = new ResultInfos(false, 404, 'Questions not found.', null);
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Questions found.', result.rows);
+            return resultInfo.getInfos();
         }
-
-        return result.rows;
     },
 
-    async create(content) {
-        
-        const result = await db.query(`INSERT INTO "questions" (content) VALUES ($1)`,  [content] );
-        
-        if (result.rowCount === 0) {
-            return undefined;
-        }
 
-        return result.rows[0];
+    async create(content) {
+
+        const result = await db.query(`INSERT INTO "questions" 
+                                       (content) VALUES ($1)`, [content]);
+
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 404, 'User not found.', null);
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Question created.', result.rows[0]);
+            return resultInfo.getInfos();
+        }
 
     },
     async delete(id) {
+        const resultExist = await questionsModel.findByPk(id);
+
+        if (resultExist.data.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 404, 'This Question does not exists.', null);
+            return resultInfo.getInfos();
+        }
         const result = await db.query('DELETE FROM questions WHERE id = $1', [id]);
-        return !!result.rowCount;
+
+        const resultInfo = new ResultInfos(true, 200, 'Question deleted.', result.rows[0]);
+        return resultInfo.getInfos();
     },
-    async update(id, question) {
-        const fields = Object.keys(question).map((prop, index) => `"${prop}" = $${index + 1}`);
-        const values = Object.values(question);
+    async update(question, id) {
+        const query = `UPDATE questions 
+                       SET content = $1 WHERE id = $2`
+        const result = await db.query(query, [question, id]);
 
-        const savedQuestion = await db.query(
-            `
-                UPDATE questions SET
-                    ${fields}
-                WHERE id = $${fields.length + 1}
-                RETURNING *
-            `,
-            [...values, id],
-        );
-
-        return savedQuestion.rows[0];
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t update.', null);
+            return resultInfo.getInfos();
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Question updated.', result.rows[0]);
+            return resultInfo.getInfos();
+        }
     },
 
-    async isUnique(inputData, questionId) {
-        const fields = [];
-        const values = [];
-        // On récupère la liste des infos envoyés
-        Object.entries(inputData).forEach(([key, value], index) => {
-            // On ne garde que les infos qui sont censées être unique
-            if (['content'].includes(key)) {
-                // On génère le filtre avec ces infos
-                fields.push(`"${key}" = $${index + 1}`);
-                values.push(value);
-            }
-        })},
+    async createAnswer(content, id, questionId) {
+
+            const queryVerify = `SELECT questions.content AS questions , answers.user_id AS user_id FROM questions
+                                 LEFT JOIN answers ON answers.question_id = questions.id
+                                 WHERE answers.user_id = $1  AND questions.id = $2 `;
+                                    
+            const resultVerify = await db.query(queryVerify, [id,questionId]);
+            
+           
+            if(resultVerify.rowCount > 0){
+                const resultInfo = new ResultInfos(false,400,'Can\'t put more one answer by questions', null);   
+                return resultInfo.getInfos();
+            } 
+        
+        const result = await db.query(`INSERT INTO answers (content,user_id,question_id)
+                                     VALUES ($1,$2,$3)`, [content, id, questionId]);
+
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t anwser created.', null);
+            return resultInfo.getInfos();
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Answer created.', result.rows[0]);
+            return resultInfo.getInfos();
+        }
+
+    },
+
+
 }
 
 module.exports = questionsModel;

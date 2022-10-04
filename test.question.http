@@ -5,27 +5,35 @@ POST http://localhost:3000/questions
 content-type: application/json
 
 {
-    "content": "est-ce une question ?"
+    "content": "bonjeaeceaaaaaaaao ?"
     
 }
 ###
-GET http://localhost:3000/question/7
+GET http://localhost:3000/question/1
 
 ###
 
-PATCH http://localhost:3000/question/6
+PATCH http://localhost:3000/question/1
 content-type: application/json
 
 {
-    "content": "les fronteux = coloriage !"
+    "content": "coucou les loulou !"
     
 }
 ### 
 
-DELETE  http://localhost:3000/question/6
+DELETE  http://localhost:3000/question/12
 
 ### 
-GET http://localhost:3000/question/1/answers
+GET http://localhost:3000/question/2/answers
 
 ###
 
+POST http://localhost:3000/question/1/answer
+content-type: application/json
+
+{
+    "content": "les fronteduex = merd !",
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInBzZXVkbyI6InJvbWFpbjciLCJlbWFpbCI6InJvbWFpbjdAbmljb2xhcy5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDUzOTIzOCwiZXhwIjoxNjY0Nzk4NDM4fQ.jK9CVspMB7Ik73XmjUVRKSPt3daduoe8oHI2M7Ed_0o\""
+    
+}

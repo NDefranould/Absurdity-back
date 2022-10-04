@@ -3,7 +3,19 @@ const ResultInfos = require('./resultInfo');
 
 const questionsModel = {
 
+    async getQuestionOfTheDay(){
+        const result = await db.query(`SELECT q.id, q.content FROM questions q
+        WHERE question_of_the_day = true `, []);
 
+        if (result.rowCount === 0) {
+        const resultInfo = new ResultInfos(false, 404, 'Question not found.',null);
+
+        return resultInfo.getInfos()
+        } else {
+        const resultInfo = new ResultInfos(true, 200, 'Question found.', result.rows[0]);
+        return resultInfo.getInfos();
+    }
+    },
     async findByPk(id) {
         const result = await db.query(`SELECT  questions.content FROM questions
                                        WHERE id = $1`, [id]);
@@ -18,16 +30,19 @@ const questionsModel = {
         }
     },
     async findByPkAllAnswers(id) {
-        const result = await db.query(`SELECT questions.content,ARRAY_AGG(questions.request) AS list_answers
-                                       FROM (SELECT questions.content,questions.date_of_publication AS date_pub,
-                                       ARRAY(select json_build_object('user', (SELECT users.pseudo FROM users WHERE id = answers.user_id), 'answer_id',answers.id, 'answer',answers.content,
-                                       'vote',answers.vote_count)) as request FROM questions
-                                       LEFT JOIN answers ON answers.question_id = questions.id
-                                       WHERE questions.id = $1 AND
-                                       questions.date_of_publication IS NOT NULL
-                                       GROUP BY questions.content,date_pub,answers.content,answers.vote_count,answers.user_id,answers.id
-                                       ORDER BY answers.vote_count DESC) as questions
-                                       GROUP BY questions.content, questions.date_pub`, [id]);
+        const result = await db.query(`SELECT questions.id AS question_id, questions.date_pub AS date_pub, questions.content AS question, json_agg(questions.request) AS list_answers
+        FROM (
+        
+        SELECT questions.id , questions.content, questions.date_of_publication AS date_pub,
+            json_build_object('pseudo', users.pseudo,'answer_id',answers.id,'answer',answers.content,'vote',
+                                             answers.vote_count) as request
+        FROM questions
+        LEFT JOIN answers ON answers.question_id = questions.id
+        LEFT JOIN users ON users.id = answers.user_id
+        WHERE questions.id = $1
+        GROUP BY questions.id,questions.content,date_pub,answers.content,answers.vote_count,answers.id,users.pseudo
+        ORDER BY answers.vote_count DESC) as questions
+        GROUP BY questions.id, questions.content,questions.date_pub`, [id]);
 
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Question not found.', null);
@@ -38,16 +53,21 @@ const questionsModel = {
         }
     },
 
-    async findAll() {
-        const result = await db.query(`SELECT questions.content,questions.date_pub AS date_pub,ARRAY_AGG(questions.request) AS list_answers
-                                       FROM (SELECT questions.content,questions.date_of_publication AS date_pub,
-                                       ARRAY(select json_build_object('answer',answers.content,'vote',answers.vote_count)) as request FROM questions
-                                       LEFT JOIN answers ON answers.question_id = questions.id
-                                       WHERE questions.date_of_publication IS NOT NULL
-                                       GROUP BY questions.content,date_pub,answers.content,answers.vote_count
-                                       ORDER BY answers.vote_count DESC) as questions
-                                       GROUP BY  questions.content,questions.date_pub 
-                                       ORDER BY date_pub DESC`);
+    async getAll() {
+        const result = await db.query(`SELECT questions.id AS question_id, questions.content AS question,questions.date_pub AS date_pub,json_agg(questions.request) AS list_answers
+        FROM (
+        
+        SELECT questions.id, questions.content,questions.date_of_publication AS date_pub,
+            json_build_object('pseudo', users.pseudo,'answer_id',answers.id,'answer',answers.content,'vote',
+                                             answers.vote_count) as request
+        FROM questions
+        LEFT JOIN answers ON answers.question_id = questions.id
+        LEFT JOIN users ON users.id = answers.user_id
+        WHERE questions.date_of_publication IS NOT NULL
+        GROUP BY questions.id, questions.content,date_pub,answers.content,answers.vote_count,answers.id,users.pseudo
+        ORDER BY answers.vote_count DESC) as questions
+        GROUP BY  questions.id, questions.content,questions.date_pub 
+        ORDER BY date_pub DESC`);
 
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Questions not found.', null);
@@ -126,7 +146,7 @@ const questionsModel = {
 
     },
     
-        async voted(userId,questionId, answerId) {
+        async voted(userId,questionId, _i) {
             const queryVerify = `SELECT answer_id FROM users_has_answers
                                  WHERE user_id = $1 AND
                                  question_id = $2`;                 

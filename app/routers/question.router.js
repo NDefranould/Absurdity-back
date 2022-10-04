@@ -16,8 +16,8 @@ router.get('/question/:questionId/answers', handlerController(questionsControlle
 /*Connected*/
 /*This the road for create one answer in the question*/
 router.post('/question/:questionId/answer',tokenAuth.checkUser,handlerController(questionsController.getQuestionByIdAndCreateAnswer));
-router.post('/answer/:answerId/voted',tokenAuth.checkUser,handlerController(questionsController.votedAnswer));
-router.post('/answer/:answerId/unvoted',tokenAuth.checkUser,handlerController(questionsController.unvotedAnswer));
+router.post('/question/:answerId/voted',tokenAuth.checkUser,handlerController(questionsController.votedAnswer));
+router.delete('/question/:answerId/voted',tokenAuth.checkUser,handlerController(questionsController.unvotedAnswer));
 /*Admin*/
 /*This the road for update one question*/ 
 router.patch('/question/:questionId',tokenAuth.checkUser,handlerController(questionsController.updateQuestion));

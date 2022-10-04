@@ -35,10 +35,11 @@ const job = new CronJob(
     }, null , true, 'Europe/Paris');
 
 module.exports = {
-    init(){
+    init(req, res ,next){
         console.log('Before job instantiation');
         job.start();
         console.log('After job instantiation');
+        
 
     },
 }

@@ -3,9 +3,7 @@ const router = Router();
 const questionRouter = require('./routers/question.router');
 const userRouter = require('./routers/user.router');
 const errorController = require('./controllers/errorController');
-const questionOfTheDay = require('./middlewares/questionOfTheDay');
 
-router.use(questionOfTheDay.init);
 /* Router User*/
 router.use(userRouter);
 

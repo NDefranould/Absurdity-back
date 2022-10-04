@@ -13,11 +13,15 @@ app.get('/', (req, res) => {
     res.send('Hello world !!');
 });
 
+const questionOfTheDay = require('./app/middlewares/questionOfTheDay');
+// router.use(questionOfTheDay.init);
+
 app.use(cors());
 app.use(router);
 
 
 
 app.listen(port, () => {
+    questionOfTheDay.init();
     console.log(`Server app listening on   http://localhost:${port}`);
 });

@@ -18,10 +18,16 @@ const questionsModel = {
         }
     },
     async findByPkAllAnswers(id) {
-        const result = await db.query(`SELECT DISTINCT questions.content AS questions , ARRAY_AGG(answers.content) AS answers,ARRAY_AGG(vote_count) AS vote_count FROM questions
+        const result = await db.query(`SELECT questions.content,ARRAY_AGG(questions.request) AS list_answers
+                                       FROM (SELECT questions.content,questions.date_of_publication AS date_pub,
+                                       ARRAY(select json_build_object('user', (SELECT users.pseudo FROM users WHERE id = answers.user_id), 'answer_id',answers.id, 'answer',answers.content,
+                                       'vote',answers.vote_count)) as request FROM questions
                                        LEFT JOIN answers ON answers.question_id = questions.id
-                                       WHERE questions.id = $1
-                                       GROUP BY questions`, [id]);
+                                       WHERE questions.id = $1 AND
+                                       questions.date_of_publication IS NOT NULL
+                                       GROUP BY questions.content,date_pub,answers.content,answers.vote_count,answers.user_id,answers.id
+                                       ORDER BY answers.vote_count DESC) as questions
+                                       GROUP BY questions.content, questions.date_pub`, [id]);
 
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Question not found.', null);
@@ -119,6 +125,49 @@ const questionsModel = {
         }
 
     },
+    
+        async voted(userId,questionId, answerId) {
+            const queryVerify = `SELECT answer_id FROM users_has_answers
+                                 WHERE user_id = $1 AND
+                                 question_id = $2`;                 
+            const resultVerify = await db.query(queryVerify, [userId, questionId]);
+            console.log(resultVerify.rowCount);
+            if(resultVerify.rowCount > 0){
+                const resultInfo = new ResultInfos(false,400,'Can\'t put more vote answer by question', null);   
+                return resultInfo.getInfos();
+            } 
+
+            const query = `INSERT INTO users_has_answers (user_id,question_id,answer_id) VALUES ($1,$2,$3)`
+            const result = await db.query(query, [userId,questionId,answerId]);
+
+            
+
+            if (result.rowCount === 0) {
+                const resultInfo = new ResultInfos(false, 400, 'Can\'t voted.', null);
+                return resultInfo.getInfos();
+            } else {
+                const count = await db.query(`UPDATE answers SET vote_count = (vote_count+1)
+                                              WHERE answers.id = $1`, [answerId]);
+                const resultInfo = new ResultInfos(true, 200, 'Vote updated.', result.rows[0]);
+                return resultInfo.getInfos();
+            }
+        },
+        async unvoted(userId, questionsId, answerId) {
+            
+            const result = await db.query(`DELETE FROM users_has_answers
+                                           WHERE user_id = $1 AND question_id = $2`
+            , [userId, questionsId]);
+
+            if (result.rowCount === 0) {
+                const resultInfo = new ResultInfos(false, 400, 'Can\'t unvoted.', null);
+                return resultInfo.getInfos();
+            } else {
+                const count = await db.query(`UPDATE answers SET vote_count = (vote_count-1)
+                                              WHERE answers.id = $1`, [answerId]);
+                const resultInfo = new ResultInfos(true, 200, 'unVoted .', result.rows[0]);
+                return resultInfo.getInfos();
+            }
+        },
 
 
 }

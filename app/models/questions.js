@@ -33,11 +33,15 @@ const questionsModel = {
     },
 
     async findAll() {
-        const result = await db.query(`SELECT questions.content AS questions , questions.date_of_publication AS date, ARRAY_AGG(answers.content) AS answers, ARRAY_AGG(vote_count) AS vote FROM questions
+        const result = await db.query(`SELECT questions.content,questions.date_pub AS date_pub,ARRAY_AGG(questions.request) AS list_answers
+                                       FROM (SELECT questions.content,questions.date_of_publication AS date_pub,
+                                       ARRAY(select json_build_object('answer',answers.content,'vote',answers.vote_count)) as request FROM questions
                                        LEFT JOIN answers ON answers.question_id = questions.id
                                        WHERE questions.date_of_publication IS NOT NULL
-                                       GROUP BY questions.content, questions.date_of_publication
-                                       ORDER BY questions.date_of_publication DESC`);
+                                       GROUP BY questions.content,date_pub,answers.content,answers.vote_count
+                                       ORDER BY answers.vote_count DESC) as questions
+                                       GROUP BY  questions.content,questions.date_pub 
+                                       ORDER BY date_pub DESC`);
 
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Questions not found.', null);
@@ -96,7 +100,7 @@ const questionsModel = {
                                  WHERE answers.user_id = $1  AND questions.id = $2 `;
                                     
             const resultVerify = await db.query(queryVerify, [id,questionId]);
-            console.log('a',resultVerify);
+            
            
             if(resultVerify.rowCount > 0){
                 const resultInfo = new ResultInfos(false,400,'Can\'t put more one answer by questions', null);   

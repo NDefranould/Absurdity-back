@@ -36,10 +36,10 @@ const usersController = {
    
     /*  This is the route for create new User, is useful for create account */
     async update(req, res) {
-        const {pseudo, password, email} = req.body
+        const {pseudo, password, email} = req.body.content
         const result = await usersModel.update(pseudo, password, email, req.params.id);
 
-        res.json(result);
+        res.status(result.statusCode).json(result);
     },
 
     /*  This is the route for delete User */

@@ -100,7 +100,6 @@ const usersModel = {
 
     /* This is route for update user  */    
     async update(pseudo, password, email, id) {
-        
         if(!pseudo== "" ||  !email == "" ) {
             
             const queryVerify = `SELECT *
@@ -133,9 +132,12 @@ const usersModel = {
               const result = await db.query(newEmail,[email, id]);
               result1 = result;
           }
-          delete result1.rows[0].password;
-          console.log('cc');
-            const resultInfo = new ResultInfos(true,200,'User updated.', result1.rows);
+            const query = `SELECT users.id, pseudo, password, email, roles.name AS role
+            FROM users
+            JOIN roles ON roles.id = role_id 
+            WHERE users.id=$1`;
+            const result = await db.query(query, [id] );
+            const resultInfo = new ResultInfos(true,200,'User updated.', {token: createToken(result.rows[0])});
             return resultInfo.getInfos();
         // const queryVerify = `SELECT *
         //                         FROM users

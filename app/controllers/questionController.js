@@ -1,4 +1,5 @@
 const questionsModel = require('../models/questions');
+const jwt = require("jsonwebtoken");
 
 const questionsController = {
 
@@ -34,7 +35,14 @@ const questionsController = {
         res.status(result.statusCode).json(result);
 
     },
-    
+    /*This the road get all questions and answers*/ 
+    async getAllQuestionsWithoutAnswers(req, res, next) {
+
+        const result = await questionsModel.getAllQuestionsWithoutAnswer();
+        
+        res.status(result.statusCode).json(result);
+
+    },
     /*This the road for create question*/ 
     async createQuestion(req, res, next) {
 
@@ -61,7 +69,10 @@ const questionsController = {
         
             const {content} = req.body
                
-            const {id, questionId} = req.params
+            const id = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+                return decodedToken.id;
+            });
+            const {questionId} = req.params
  
             const result = await questionsModel.createAnswer(content,id,questionId);
             res.status(result.statusCode).json(result);
@@ -70,7 +81,8 @@ const questionsController = {
     async votedAnswer(req, res, next) {
 
         const {answerId} = req.params
-        const userId = req.params.id
+        const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+            return decodedToken.id;});
         const {questionId} = req.body
 
         const result = await questionsModel.voted(userId,questionId,answerId);

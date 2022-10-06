@@ -65,11 +65,13 @@ const usersModel = {
 
     /* This is route for search the user by the id  */    
      async getOneByPk(id) {
+        console.log(id)
         const query = `SELECT users.id, pseudo, password, email, roles.name AS role
                         FROM users
                         JOIN roles ON roles.id = role_id 
                         WHERE users.id = $1`;
         const result = await db.query(query, [id]);
+        console.log(result.rows)
         if(result.rowCount != 0){   
             delete result.rows[0].password;
         }
@@ -171,7 +173,8 @@ const usersModel = {
     /* This is route for delete user  */    
      async delete(id) {
         const resultExist = await usersModel.getOneByPk(id);
-        if (!resultExist) {
+        console.log('resultexist', resultExist);
+        if (!resultExist.queryStatus) {
             const resultInfo = new ResultInfos(false,404,'This User does not exists.', result.rows);
             return resultInfo.getInfos();
         }
@@ -180,7 +183,7 @@ const usersModel = {
                         RETURNING *`;
         const result = await db.query(query, [id]);
 
-        const resultInfo = new ResultInfos(true,204,'User deleted.', result);
+        const resultInfo = new ResultInfos(true,200,'User deleted.', result);
         return resultInfo.getInfos();
     },
 

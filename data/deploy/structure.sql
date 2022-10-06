@@ -56,11 +56,11 @@ INSERT INTO "roles" (name) VALUES
     ('user');
 
 INSERT INTO "users" (pseudo,password,email, role_id) VALUES
- ('Nicolas', 'nicolas','nicolas@nicolas.com', 2),
- ('Joris', 'joris','joris@joris.com', 1),
- ('Nabiha', 'nabiha', 'nabiha@nabiha.com', 1),
- ('Thibault', 'thibault','thibault@thibault.com', 1),
- ('Romain', 'romain', 'romain@romain.com', 2),
+ ('Test', 'nicolas','nicolas@nicolas.com', 2),
+ ('Test1', 'joris','joris@joris.com', 1),
+ ('Test2', 'nabiha', 'nabiha@nabiha.com', 1),
+ ('Test3', 'thibault','thibault@thibault.com', 1),
+ ('Test4', 'romain', 'romain@romain.com', 2),
  ('ChouRaveDu93', 'chouravedu93','chouravedu93@chouravedu93.com', 2),
  ('Fleur-Choux', 'fleur-choux','fleur-rcohoux@fleur-rcohoux.com', 2),
  ('ChoupinetteDu75', 'choupinettedu75', 'choupinettedu75s@choupinettedu75s.com', 2);

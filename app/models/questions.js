@@ -29,6 +29,18 @@ const questionsModel = {
             return resultInfo.getInfos();
         }
     },
+    async getAllQuestionsWithoutAnswer() {
+        const result = await db.query(`SELECT * FROM questions ORDER BY id DESC`, []);
+
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 404, 'Questions not found.',null);
+            
+            return resultInfo.getInfos()
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Questions found.', result.rows);
+            return resultInfo.getInfos();
+        }
+    },
     async findByPkAllAnswers(id) {
         const result = await db.query(`SELECT questions.id AS question_id, questions.date_pub AS date_pub, questions.content AS question, json_agg(questions.request) AS list_answers
         FROM (

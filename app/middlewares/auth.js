@@ -4,14 +4,22 @@ const jwt = require("jsonwebtoken");
 const handlerController = require('../controllers/handlerController');
 
 module.exports.checkUser = handlerController((req, res, next) => {
-  const resToken = JSON.parse(req.body.token);
+  console.log(req.method,req.url,'ici------------------',req.body);
+  
+  const token = req.body.token || req.query.token || null;
+  console.log('token query', token);
+  const resToken = token;
+
   const tokenAuth = {tokenStatus: false, error: null};
   if (resToken) {
-    jwt.verify(resToken,process.env.PASSPHRASE, 
+    jwt.verify(resToken, process.env.PASSPHRASE, 
       async (err, decodedToken) => {
+        console.log('Decodedtoken in function', decodedToken);
         if (err) {
+          console.log(err)
           tokenAuth.error = 'The token is invalid.';
         } else {
+          console.log('user id', decodedToken.id)
           const user = await users.getOneByPk(decodedToken.id);
           const { pseudo, email , role } = decodedToken;
             if (user) {
@@ -34,6 +42,8 @@ module.exports.checkUser = handlerController((req, res, next) => {
           }else{
             req.params.id = decodedToken.id;
             req.params.token = tokenAuth;
+            console.log('auth params', req.data)
+            console.log('ok')
             next();
         }
         }else{

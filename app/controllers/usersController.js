@@ -1,5 +1,6 @@
 require('dotenv').config();
 const usersModel = require('../models/users');
+const jwt = require("jsonwebtoken");
 
 
 const usersController = {
@@ -16,13 +17,15 @@ const usersController = {
     async login(req, res, next) {
         const {pseudo, password} = req.body;
         const result = await usersModel.login(pseudo, password);    
-
+        console.log('test post',req.query)
         res.status(result.statusCode).json(result);
     },
 
     /* This is route for search the user by the id */ // OK
    async getOneByPk(req, res, next) {
-        const id = req.params.id;
+        const id = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+            return decodedToken.id;
+        });
         const user = await usersModel.getOneByPk(id);
 
         res.status(user.statusCode).json(user);
@@ -36,15 +39,19 @@ const usersController = {
    
     /*  This is the route for create new User, is useful for create account */
     async update(req, res) {
-        const {pseudo, password, email} = req.body.content
-        const result = await usersModel.update(pseudo, password, email, req.params.id);
+        const {pseudo, password, email} = req.body.content;
+        const id = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+            return decodedToken.id;});
+        const result = await usersModel.update(pseudo, password, email, id);
 
         res.status(result.statusCode).json(result);
     },
 
     /*  This is the route for delete User */
     async delete(req, res, next) {
-        const id = req.params.id;
+        const id = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+            return decodedToken.id;
+        });
         const result = await usersModel.delete(id);
 
         res.status(result.statusCode).json(result);

@@ -14,6 +14,7 @@ router.post('/sign-up',handlerController(usersController.signup));
 router.post('/login',handlerController(usersController.login));
 /*This is the route for verify token for front*/
 router.get('/checkuser',tokenAuth.checkUser);
+
 /*Not connected*/
 /*This the road get question of the day without answer*/ 
 router.get('/dailyquestion', handlerController(questionsController.getQuestionOfTheDay));

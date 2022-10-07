@@ -39,13 +39,14 @@ content-type: application/json
 }
 
 ###
-PATCH http://localhost:3000/user
+PATCH http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUwNzk0NjAsImV4cCI6MTY2NTMzODY2MH0.XdXpoylS291HX4xhiVjbSuiKP3VfP4a60XZk4j-_BAI
 content-type: application/json
 
 {
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUwNjMxNzIsImV4cCI6MTY2NTMyMjM3Mn0.l1ptHM1UvoFZ0giQ1dSbU7gHSrv1YYrPWy4O5r16QK8\"",
-    "password": "ee"
-    
+    "content": {
+                "password": "ee" 
+    }
+      
 }
 ###
 

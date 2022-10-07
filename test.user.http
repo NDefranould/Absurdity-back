@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "c",
-    "password": "c",
-    "email": "c@"
+    "pseudo": "e",
+    "password": "e",
+    "email": "e@"
 }
 
 ###
@@ -14,8 +14,8 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "c",
-    "password": "c"
+    "pseudo": "e",
+    "password": "e"
     
 }
 ###
@@ -35,18 +35,18 @@ POST http://localhost:3000/user
 content-type: application/json
 
 {
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInBzZXVkbyI6Im5pY29sYXNzIiwiZW1haWwiOiJybmljb2xhc0BuaWNvbGFzLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0NDg1MzE3LCJleHAiOjE2NjQ3NDQ1MTd9.hq_mQa8LZFL_wDISflmfYOnswV8AHufMvB-nrqS6-g4\""
+    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUwNjMxNzIsImV4cCI6MTY2NTMyMjM3Mn0.l1ptHM1UvoFZ0giQ1dSbU7gHSrv1YYrPWy4O5r16QK8\""
 }
 
 ###
-PATCH http://localhost:3000/user
+PATCH http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUwNzk0NjAsImV4cCI6MTY2NTMzODY2MH0.XdXpoylS291HX4xhiVjbSuiKP3VfP4a60XZk4j-_BAI
 content-type: application/json
 
 {
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImMiLCJlbWFpbCI6ImNAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjQ4Nzc1MDQsImV4cCI6MTY2NTEzNjcwNH0.cLqWsHI-pe5v1D6cDZ6Y1FiudmvyN2iaZkh3jaCghwY\"",
-    
-    "password": "romain"
-    
+    "content": {
+                "password": "ee" 
+    }
+      
 }
 ###
 

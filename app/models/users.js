@@ -2,7 +2,7 @@ const db = require('../config/db');
 const bcrypt = require('bcrypt');
 const ResultInfos = require('./resultInfo');
 const jwt = require("jsonwebtoken");
-
+const nodemailer = require("nodemailer");
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (jsonObject) => {
   return jwt.sign( jsonObject, process.env.PASSPHRASE, {
@@ -212,8 +212,88 @@ const usersModel = {
         return resultInfo.getInfos();
     },
 
+    /*This the function for create new User, is useful for create account*/
+    async retrievedPass(userId) {
+
+        /*The query sql for verify if pseudo or email exist already*/
+        const queryVerify = `SELECT users.email FROM users 
+                             WHERE users.id = $1`;                 
+        const resultVerify = await db.query(queryVerify, [userId]);
+
+
+        const query = `UPDATE users SET password = 1234
+                       WHERE users.id = $1`;                 
+        const result = await db.query(Verify, [userId]);
+
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "nicolasdefranould@gmail.com",  
+              pass: "ljjlpdztfpuysxra", 
+            },
+          });
+        
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: "nicolasdefranould@gmail.com", 
+            to: resultVerify.rows[0].email, 
+            subject: "Hello ✔", 
+            text: "you new password is 1234",
+            
+          });
+          /*delete the password in the result*/
+            delete result.rows[0].password;
+
+            /*if have problem with database send 404*/
+            if (resultVerify.rowCount === 0) {
+            const resultInfo = new ResultInfos(false,400,'Can\'t send password.', null);   
+            return resultInfo.getInfos();
+            }else{
+            /*else send 200*/
+            const resultInfo = new ResultInfos(true,200,'Success to send password.', resultVerify.rows);
+            return resultInfo.getInfos();
+            }
+        
+    },
+
+
+
 };
 
+
+// /*The query sql for verify if pseudo or email exist already*/
+// const queryVerify = `SELECT users.password FROM users 
+// WHERE users.id = $1`;                 
+// const resultVerify = await db.query(queryVerify, [userId]);
+
+// let transporter = nodemailer.createTransport({
+// service: "gmail",
+// auth: {
+// user: "nicolasdefranould@gmail.com",  
+// pass: "ljjlpdztfpuysxra", 
+// },
+// });
+
+// // send mail with defined transport object
+// let info = await transporter.sendMail({
+// from: "nicolasdefranould@gmail.com", 
+// to: "nicolasdefranould@gmail.com", 
+// subject: "Hello ✔", 
+// text: resultVerify.rows[0].password,
+
+// });
+// /*delete the password in the result*/
+// delete resultVerify.rows[0].password;
+
+// /*if have problem with database send 404*/
+// if (resultVerify.rowCount === 0) {
+// const resultInfo = new ResultInfos(false,400,'Can\'t send password.', null);   
+// return resultInfo.getInfos();
+// }else{
+// /*else send 201*/
+// const resultInfo = new ResultInfos(true,200,'Success to send password.', resultVerify.rows);
+// return resultInfo.getInfos();
+// }
 
        
 module.exports = usersModel;

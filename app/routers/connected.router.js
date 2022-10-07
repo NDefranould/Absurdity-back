@@ -2,24 +2,29 @@ const {Router} = require('express');
 const router = Router();
 
 const handlerController = require('../controllers/handlerController');
+const usersController = require('../controllers/usersController');
 const questionsController = require('../controllers/questionController');
+
 const tokenAuth = require('../middlewares/auth');
 
-
-
+/*Authentification*/
 router.use(tokenAuth.checkUser);
-/*Connected*/
+
+/*Users*/
+/*This is the route for Find user By Id */
+router.get('/user',handlerController(usersController.getOneByPk));
+/*This is the route for update the account of the user */
+router.patch('/user',handlerController(usersController.update));
+/*This is the route for delete the account of the user */
+router.delete('/user',handlerController(usersController.delete));
+
+/*Questions
 /*This the road for create one answer in the question*/
 router.post('/question/:questionId/answer',handlerController(questionsController.getQuestionByIdAndCreateAnswer));
+/*This the road for voted for one answer by question*/
 router.post('/question/:answerId/voted',handlerController(questionsController.votedAnswer));
+/*This the road for unvoted for the answer*/
 router.delete('/question/:answerId/voted',handlerController(questionsController.unvotedAnswer));
-/*Admin*/
-/*This the road for update one question*/ 
-router.patch('/question/:questionId',handlerController(questionsController.updateQuestion));
-/*This the road for delete one question*/ 
-router.delete('/question/:questionId',handlerController(questionsController.deleteQuestion));
-/*This the road for create question*/ 
-router.post('/questions',tokenAuth.checkUser,handlerController(questionsController.createQuestion));
-router.get('/admin/questions', handlerController(questionsController.getAllQuestionsWithoutAnswers));
+
 
 module.exports = router;

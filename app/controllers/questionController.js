@@ -108,13 +108,13 @@ const questionsController = {
     async votedAnswer(req, res, next) {
 
         /*retrieve answer id*/
-        const {answerId} = req.params
+        const {answerId} = req.params;
         /*retrieve user id by the token*/
         const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
             return decodedToken.id;
         });
         /*retrieve question id*/
-        const {questionId} = req.body
+        const {questionId} = req.body.content;
         /*Call the function voted with the answer id, user id and
           question id for vote one answer by question*/
         const result = await questionsModel.voted(userId,questionId,answerId);
@@ -125,11 +125,13 @@ const questionsController = {
     /*This the function for unvoted answer*/
     async unvotedAnswer(req, res, next) {
         /*retrieve user id*/
-        const userId = req.params.id
+        const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+          return decodedToken.id;
+      });
         /*retrieve question id*/
-        const {questionId} = req.body
+        const {questionId} = req.body.content;
         /*retrieve answer id*/
-        const {answerId} = req.params
+        const {answerId} = req.params;
         /*Call the function unvoted with the answer id, user id and
           question id for unvoted the answer*/
         const result = await questionsModel.unvoted(userId,questionId, answerId);

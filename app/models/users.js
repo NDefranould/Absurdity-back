@@ -169,9 +169,14 @@ const usersModel = {
               result1 = result;
           }
           delete result1.rows[0].password;
-          
+
+            const query = `SELECT users.id, pseudo, email, roles.name AS role
+             FROM users
+             JOIN roles ON roles.id = role_id 
+             WHERE users.id=$1`;
+            result1 = await db.query(query, [id]);    
             /*Send 200*/
-            const resultInfo = new ResultInfos(true,200,'User updated.', result1.rows);
+            const resultInfo = new ResultInfos(true,200,'User updated.', {token: createToken(result1.rows[0])});
             return resultInfo.getInfos();      
     },
 

@@ -22,9 +22,11 @@ router.delete('/user',handlerController(usersController.delete));
 /*This the road for create one answer in the question*/
 router.post('/question/:questionId/answer',handlerController(questionsController.getQuestionByIdAndCreateAnswer));
 /*This the road for voted for one answer by question*/
+router.get('/alreadyvoted/:questionId',handlerController(questionsController.haveIvoted));
+/*This the road for voted for one answer by question*/
 router.post('/question/:answerId/voted',handlerController(questionsController.votedAnswer));
 /*This the road for unvoted for the answer*/
-router.delete('/question/:answerId/voted',handlerController(questionsController.unvotedAnswer));
+router.post('/question/:answerId/unvoted',handlerController(questionsController.unvotedAnswer));
 
 
 module.exports = router;

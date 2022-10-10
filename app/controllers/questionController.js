@@ -153,8 +153,9 @@ const questionsController = {
         const result = await questionsModel.unvoted(userId,questionId, answerId);
          /*return if function has been applied or not*/ 
         res.status(result.statusCode).json(result);
-    }
+    },
 
+    
 };
 
 module.exports = questionsController;

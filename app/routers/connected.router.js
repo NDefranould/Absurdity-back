@@ -13,6 +13,8 @@ router.use(tokenAuth.checkUser);
 /*Users*/
 /*This is the route for Find user By Id */
 router.get('/user',handlerController(usersController.getOneByPk));
+
+router.post('/user',handlerController(usersController.passwordForgot));
 /*This is the route for update the account of the user */
 router.patch('/user',handlerController(usersController.update));
 /*This is the route for delete the account of the user */

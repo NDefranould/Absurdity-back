@@ -221,9 +221,10 @@ const usersModel = {
         const resultVerify = await db.query(queryVerify, [userId]);
 
 
-        const query = `UPDATE users SET password = 1234
-                       WHERE users.id = $1`;                 
-        const result = await db.query(Verify, [userId]);
+        const query = `UPDATE users SET password = ROUND(RANDOM()*1000000)
+                       WHERE users.id = $1 RETURNING *`;                 
+        const result = await db.query(query, [userId]);
+        
 
         let transporter = nodemailer.createTransport({
             service: "gmail",
@@ -232,13 +233,14 @@ const usersModel = {
               pass: "ljjlpdztfpuysxra", 
             },
           });
-        
+        //   resultVerify.rows[0].email,
           // send mail with defined transport object
           let info = await transporter.sendMail({
             from: "nicolasdefranould@gmail.com", 
-            to: resultVerify.rows[0].email, 
+            to: "nicolasdefranould@gmail.com",  
             subject: "Hello ✔", 
-            text: "you new password is 1234",
+            text:  "you new password is " + result.rows[0].password,
+            
             
           });
           /*delete the password in the result*/

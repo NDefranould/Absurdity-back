@@ -4,12 +4,22 @@ GET http://localhost:3000/dailyquestion
 GET http://localhost:3000/questions
 
 ###
-POST http://localhost:3000/questions
+POST http://localhost:3000/questions?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInBzZXVkbyI6ImEiLCJlbWFpbCI6ImFAIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY1NDAzNTkzLCJleHAiOjE2NjU2NjI3OTN9.TK9GENe_9iw0xiLxxP3iTssIjz37PflkgCdjpfkQEwY
 content-type: application/json
 
 {
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInBzZXVkbyI6ImFhYSIsImVtYWlsIjoiYWJhQCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0ODcwMjc1LCJleHAiOjE2NjUxMjk0NzV9.1r7UI-kLWe-a14O_vsU81C2JZFLYPwnBBI8IcdxBIng\"",
-    "content": "bonaaezcaaaeeaaaaao ?"
+    
+    "content": "bonaeezzao ?"
+    
+}
+###
+
+POST http://localhost:3000/questions?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInBzZXVkbyI6ImIiLCJlbWFpbCI6ImJAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjU0MDM3NDcsImV4cCI6MTY2NTY2Mjk0N30.Mdyyp843hMfr2081VlrbLqdpIocebVw2HZCWg8ZA51A
+content-type: application/json
+
+{
+    
+    "content": "bonaazzo ?"
     
 }
 ###

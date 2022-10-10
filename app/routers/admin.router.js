@@ -4,6 +4,10 @@ const router = Router();
 const handlerController = require('../controllers/handlerController');
 const usersController = require('../controllers/usersController');
 const questionsController = require('../controllers/questionController');
+const tokenAuthAdmin = require('../middlewares/authAdmin');
+
+/*Authentification*/
+router.use(tokenAuthAdmin.checkUser);
 
 /*Users*/
 /*This is the route for watch all users*/

@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "f",
-    "password": "f",
-    "email": "f@"
+    "pseudo": "b",
+    "password": "b",
+    "email": "b@"
 }
 
 ###
@@ -14,8 +14,8 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "f",
-    "password": "f"
+    "pseudo": "b",
+    "password": "b"
     
 }
 ###
@@ -53,12 +53,11 @@ content-type: application/json
     "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInBzZXVkbyI6InJvbWFpbiIsImVtYWlsIjoicm9tYWluQG5pY29sYXMuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjQ0ODg3ODQsImV4cCI6MTY2NDc0Nzk4NH0.X3osN74S6Z29TC20k_hRzq8KQ1ZQ5ed00YZqN3bhBHM\""
 }
 ###
-POST http://localhost:3000/users
-content-type: application/json
+POST http://localhost:3000/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInBzZXVkbyI6ImEiLCJlbWFpbCI6ImFAIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY1NDAzNTkzLCJleHAiOjE2NjU2NjI3OTN9.TK9GENe_9iw0xiLxxP3iTssIjz37PflkgCdjpfkQEwY
 
-{
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInBzZXVkbyI6Im5pY29sYXNzIiwiZW1haWwiOiJybmljb2xhc0BuaWNvbGFzLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjY0NDg1MzE3LCJleHAiOjE2NjQ3NDQ1MTd9.hq_mQa8LZFL_wDISflmfYOnswV8AHufMvB-nrqS6-g4\""
-}
+###
+POST http://localhost:3000/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInBzZXVkbyI6ImIiLCJlbWFpbCI6ImJAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjU0MDM3NDcsImV4cCI6MTY2NTY2Mjk0N30.Mdyyp843hMfr2081VlrbLqdpIocebVw2HZCWg8ZA51A
+
 ###
 
 ###

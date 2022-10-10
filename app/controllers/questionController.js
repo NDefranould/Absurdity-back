@@ -103,7 +103,20 @@ const questionsController = {
             /*return if function has been applied or not*/
             res.status(result.statusCode).json(result);
     },
-
+    async haveIvoted(req,res,next) {
+       /*retrieve user id by the token*/
+       const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
+           return decodedToken.id;
+       });
+       /*retrieve question id*/
+       const {questionId} = req.params;
+       console.log('questionid', questionId, 'userid', userId);
+       /*Call the function voted with the answer id, user id and
+         question id for vote one answer by question*/
+       const result = await questionsModel.haveIvoted(userId,questionId);
+       /*return if function has been applied or not*/
+       res.status(result.statusCode).json(result);
+    },
     /*This the function for vote for only answer by question*/
     async votedAnswer(req, res, next) {
 
@@ -128,8 +141,11 @@ const questionsController = {
         const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
           return decodedToken.id;
       });
+      console.log('req.body',req.body)
         /*retrieve question id*/
         const {questionId} = req.body.content;
+        console.log('req.questionId',questionId)
+
         /*retrieve answer id*/
         const {answerId} = req.params;
         /*Call the function unvoted with the answer id, user id and
@@ -137,8 +153,9 @@ const questionsController = {
         const result = await questionsModel.unvoted(userId,questionId, answerId);
          /*return if function has been applied or not*/ 
         res.status(result.statusCode).json(result);
-    }
+    },
 
+    
 };
 
 module.exports = questionsController;

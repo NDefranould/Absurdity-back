@@ -196,6 +196,26 @@ const questionsModel = {
     },
     
     /*This the function for vote for only answer by question*/
+    async haveIvoted(userId,questionId) {
+
+        /*The query sql verify is user don't have already voted for this question*/
+        const query = `SELECT answer_id FROM users_has_answers
+                             WHERE user_id = $1 AND
+                             question_id = $2`;                 
+        const result = await db.query(query, [userId, questionId]);
+
+        console.log('result vote find', result);
+        /*if have problem in database send 400*/
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 404, 'Can\'t voted.', null);
+            return resultInfo.getInfos();
+        } else {
+            const resultInfo = new ResultInfos(true, 200, 'Vote found.', result.rows[0]);
+            return resultInfo.getInfos();
+        }
+    },
+
+    /*This the function for vote for only answer by question*/
     async voted(userId,questionId,answerId) {
 
         /*The query sql verify is user don't have already voted for this question*/
@@ -227,11 +247,24 @@ const questionsModel = {
     },
 
     /*This the function for unvoted the answer*/
-    async unvoted(userId, questionsId, answerId) {
+    async unvoted(userId, questionId, answerId) {
+        /*The query sql verify is user don't have already voted for this question*/
+        const queryVerify = `SELECT answer_id FROM users_has_answers
+                             WHERE user_id = $1 AND
+                             question_id = $2`;                 
+        const resultVerify = await db.query(queryVerify, [userId, questionId]);
 
+        /*if the user have already voted send 400*/
+        if(resultVerify.rowCount === 0){
+            console.log('ici');
+            const resultInfo = new ResultInfos(false,400,'Can\'t unvote', null);   
+            return resultInfo.getInfos();
+        } 
+        
         /* The query sql delete the vote in database*/
         const result = await db.query(`DELETE FROM users_has_answers
-                                       WHERE user_id = $1 AND question_id = $2`, [userId, questionsId]);
+                                       WHERE user_id = $1 AND question_id = $2 RETURNING *`, [userId, questionId]);
+
         /*if have problem in database send 400*/                          
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 400, 'Can\'t unvoted.', null);

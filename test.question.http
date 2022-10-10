@@ -43,19 +43,17 @@ content-type: application/json
 }
 
 ###
-POST http://localhost:3000/question/10/voted
+POST http://localhost:3000/question/1/voted?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUzODYyNzIsImV4cCI6MTY2NTY0NTQ3Mn0.vT0Whgg7q740_yp0NVjz1uL72DJEeX4Y3JilHucdTVU
 content-type: application/json
 
-{   "questionId": "4",
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDg5MTUxMCwiZXhwIjoxNjY1MTUwNzEwfQ.LjaGCXl3UodhtWJ6ZtieTGuQ0-Ym9y_CF37mCzfkPUw\""
-    
+{   
+    "questionId": "4",
 }
 
 ###
-DELETE  http://localhost:3000/question/1/voted
+POST  http://localhost:3000/question/1/unvoted?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUzODYyNzIsImV4cCI6MTY2NTY0NTQ3Mn0.vT0Whgg7q740_yp0NVjz1uL72DJEeX4Y3JilHucdTVU
 content-type: application/json
 
-{   "questionId": "2",
-    "token": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NDg5MTUxMCwiZXhwIjoxNjY1MTUwNzEwfQ.LjaGCXl3UodhtWJ6ZtieTGuQ0-Ym9y_CF37mCzfkPUw\""
-    
+{   
+    "questionId": "2"
 }

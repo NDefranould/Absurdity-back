@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     "pseudo" TEXT NOT NULL UNIQUE,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL UNIQUE,
+    "email_verify" BOOLEAN NOT NULL DEFAULT '0',
     "role_id" INTEGER NOT NULL DEFAULT 2 REFERENCES roles(id),
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ 

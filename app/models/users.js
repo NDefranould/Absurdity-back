@@ -33,16 +33,17 @@ const usersModel = {
                        VALUES ($1, $2,$3) 
                        RETURNING *`;
         const result = await db.query(query, [pseudo,hash,email] );
-
+        
         /*delete the password in the result*/
         delete result.rows[0].password;
-
+        const id = result.rows[0].id    
         /*if have problem with database send 404*/
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false,400,'Can\'t insert.', null);   
             return resultInfo.getInfos();
         }else{
         /*else send 201*/
+            usersModel.verifyEmail(id);
             const resultInfo = new ResultInfos(true,201,'Success to create account.', result.rows[0]);
             return resultInfo.getInfos();
             }
@@ -262,6 +263,36 @@ const usersModel = {
             }
         
     },
+
+    async verifyEmail(id) {
+         
+        const query = `SELECT users.email FROM users 
+                       WHERE users.id = $1`;                 
+        const result = await db.query(query, [id]);
+        // const email = await result.rows[0].email; for to for email send
+        const query0 = `UPDATE users SET email_verify = '1'
+                        WHERE users.id = $1 RETURNING *`;                 
+        const result0 = await db.query(query0, [id]);
+        
+        var transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "nicolasdefranould@gmail.com",
+                pass: "ljjlpdztfpuysxra"
+            }
+        });
+        
+        const info = await transporter.sendMail({
+            from: "nicolasdefranould@gmail.com", 
+            to: "nicolasdefranould@gmail.com",  
+            subject: "Hello ✔", 
+            text:  "Click here for verify your email " + `http://localhost:3000/useremailverify`,
+            
+          });
+            /*else send 200*/
+            const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
+            return resultInfo.getInfos();
+    }
 
 
 

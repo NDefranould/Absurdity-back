@@ -95,6 +95,14 @@ const usersController = {
       const result = await usersModel.retrievedPass(userId);
        /*return if function has been applied or not*/ 
       res.status(result.statusCode).json(result);
+    },
+
+    async emailVerify(req, res, next) {
+      /*Call the function unvoted with the answer id, user id and
+        question id for unvoted the answer*/
+      const result = await usersModel.verifyEmail();
+       /*return if function has been applied or not*/ 
+      res.status(result.statusCode).json(result);
   }
 
 };

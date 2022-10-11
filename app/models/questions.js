@@ -278,6 +278,30 @@ const questionsModel = {
         }
     },
 
+    async deleteAnswerVote(questionId, answerId) { 
+
+        
+        /*The query sql verify is user don't have already voted for this question*/
+        const query = `DELETE FROM users_has_answers 
+                       WHERE answer_id = $1 AND question_id = $2 RETURNING *`;                 
+        const result = await db.query(query, [answerId, questionId]);
+
+        const query0 = `DELETE FROM answers WHERE answers.id = $1  
+                       AND question_id = $2 RETURNING *`;                 
+        const result0 = await db.query(query0, [answerId, questionId]);
+
+        /*if have problem in database send 400*/                          
+        if (result0.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t unvoted.', null);
+            return resultInfo.getInfos();
+        } else {
+        /*Else send 200*/
+            const resultInfo = new ResultInfos(true, 200, 'unVoted .', result0.rows[0]);
+            return resultInfo.getInfos();
+        }
+
+    }
+
 
 }
 

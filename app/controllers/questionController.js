@@ -119,7 +119,7 @@ const questionsController = {
     },
     /*This the function for vote for only answer by question*/
     async votedAnswer(req, res, next) {
-
+        
         /*retrieve answer id*/
         const {answerId} = req.params;
         /*retrieve user id by the token*/
@@ -127,7 +127,8 @@ const questionsController = {
             return decodedToken.id;
         });
         /*retrieve question id*/
-        const {questionId} = req.body.content;
+        const questionId = req.body.questionId;
+        
         /*Call the function voted with the answer id, user id and
           question id for vote one answer by question*/
         const result = await questionsModel.voted(userId,questionId,answerId);
@@ -141,7 +142,7 @@ const questionsController = {
         const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
           return decodedToken.id;
       });
-      console.log('req.body',req.body)
+      
         /*retrieve question id*/
         const {questionId} = req.body.content;
         console.log('req.questionId',questionId)
@@ -154,6 +155,22 @@ const questionsController = {
          /*return if function has been applied or not*/ 
         res.status(result.statusCode).json(result);
     },
+
+    /*This the function for unvoted answer*/
+    async deleteAnswerAndVote(req, res, next) {
+      
+      /*retrieve question id*/
+      const {questionId} = req.body.content;
+
+      /*retrieve answer id*/
+      const {answerId} = req.params;
+
+      /*Call the function unvoted with the answer id, user id and
+        question id for unvoted the answer*/
+      const result = await questionsModel.deleteAnswerVote(questionId, answerId);
+       /*return if function has been applied or not*/ 
+      res.status(result.statusCode).json(result);
+  },
 
     
 };

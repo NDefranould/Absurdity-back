@@ -92,15 +92,11 @@ const usersModel = {
             const resultInfo = new ResultInfos(false,404,'User not found.', result);
             return resultInfo.getInfos();
         };
-        console.log('result.rows[0]',result.rows[0]);
-        console.log(result.rows[0].created_at.toString())
-        console.log('datatoken',dataToken);
         if(result.rows[0].pseudo === dataToken.pseudo && result.rows[0].email === dataToken.email){
             // if token = okay set email_verify to true
             const query0 = `UPDATE users SET email_verify = '1'
             WHERE users.id = $1 RETURNING *`;                 
             const result0 = await db.query(query0, [dataToken.id]);
-            console.log('result0',result0);
             /*else send 200*/
             const resultInfo = new ResultInfos(true,200,'Success to verify account.', result0);
             return resultInfo.getInfos();
@@ -118,7 +114,7 @@ const usersModel = {
         const query = `SELECT users.id, pseudo, password, email, roles.name AS role
                         FROM users
                         JOIN roles ON roles.id = role_id 
-                        WHERE pseudo=$1 OR email=$1`;
+                        WHERE email_verify=true AND pseudo=$1 OR email=$1`;
         const result = await db.query(query, [pseudo] );
         let deCrypt = false;
         /*if retrieved the pseudo or email and the password in database*/

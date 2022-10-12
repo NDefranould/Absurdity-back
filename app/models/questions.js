@@ -207,7 +207,7 @@ const questionsModel = {
         console.log('result vote find', result);
         /*if have problem in database send 400*/
         if (result.rowCount === 0) {
-            const resultInfo = new ResultInfos(false, 404, 'Can\'t voted.', null);
+            const resultInfo = new ResultInfos(false, 404, 'Je n\'ai pas voté', null);
             return resultInfo.getInfos();
         } else {
             const resultInfo = new ResultInfos(true, 200, 'Vote found.', result.rows[0]);

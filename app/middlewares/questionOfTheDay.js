@@ -27,10 +27,10 @@ async function launchQuestionOfTheDay(){
 };
 
 const job = new CronJob(
-    '00 00 12 * * 0-6',
-     function() {
-        resetYesterdayQuestion();
-        launchQuestionOfTheDay();
+    '0 */10 * * * *', //'00 00 12 * * 0-6',
+     async function() {
+        await resetYesterdayQuestion();
+        await launchQuestionOfTheDay();
         
     }, null , true, 'Europe/Paris');
 

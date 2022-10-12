@@ -94,7 +94,7 @@ const questionsModel = {
                                        answers.vote_count) as request FROM questions
                                        LEFT JOIN answers ON answers.question_id = questions.id
                                        LEFT JOIN users ON users.id = answers.user_id
-                                       WHERE questions.date_of_publication IS NOT NULL AND question_of_the_day = false
+                                       WHERE questions.date_of_publication IS NOT NULL AND question_of_the_day=false
                                        GROUP BY questions.id, questions.content,date_pub,answers.content,answers.vote_count,answers.id,users.pseudo
                                        ORDER BY answers.vote_count DESC) as questions
                                        GROUP BY  questions.id, questions.content,questions.date_pub 

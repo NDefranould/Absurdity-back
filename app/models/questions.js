@@ -94,7 +94,7 @@ const questionsModel = {
                                        answers.vote_count) as request FROM questions
                                        LEFT JOIN answers ON answers.question_id = questions.id
                                        LEFT JOIN users ON users.id = answers.user_id
-                                       WHERE questions.date_of_publication IS NOT NULL AND question_of_the_day="f"
+                                       WHERE questions.date_of_publication IS NOT NULL AND question_of_the_day = false
                                        GROUP BY questions.id, questions.content,date_pub,answers.content,answers.vote_count,answers.id,users.pseudo
                                        ORDER BY answers.vote_count DESC) as questions
                                        GROUP BY  questions.id, questions.content,questions.date_pub 
@@ -277,6 +277,27 @@ const questionsModel = {
             return resultInfo.getInfos();
         }
     },
+
+    async deleteAnswerVote(questionId, answerId) { 
+
+        /*The query sql verify is user don't have already voted for this question*/
+       
+        const query = `DELETE FROM answers WHERE answers.id = $1  
+                       AND question_id = $2 RETURNING *`;                 
+        const result = await db.query(query, [answerId, questionId]);
+
+        /*if have problem in database send 400*/ 
+                                
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false, 400, 'Can\'t delete answer and vote.', null);
+            return resultInfo.getInfos();
+        } else {
+        /*Else send 200*/
+            const resultInfo = new ResultInfos(true, 200, 'Answer and vote id delete', result.rows[0]);
+            return resultInfo.getInfos();
+        }
+           
+    }
 
 
 }

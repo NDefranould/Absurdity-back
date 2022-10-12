@@ -36,18 +36,18 @@ content-type: application/json
 }
 ### 
 
-DELETE  http://localhost:3000/question/12
+DELETE  http://localhost:3000/question/2?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU1NjM0NjQsImV4cCI6MTY2NTgyMjY2NH0.2oRRfqlU8ELrgO7XOQ-ONs1ppg5iYEqYsk9Y6EdvTs4
 
 ### 
 GET http://localhost:3000/question/4/answers
 
 ###
 
-POST http://localhost:3000/question/1/answer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHNldWRvIjoiYiIsImVtYWlsIjoiYkAiLCJyb2xlIjoidXNlciIsImlhdCI6MTY2NTQ4OTI1MywiZXhwIjoxNjY1NzQ4NDUzfQ.Vt9N6kirplgUiCUlIJmoPzJNEYFREu9PKlHC8gEsY_U
+POST http://localhost:3000/question/1/answer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU0OTA4MTUsImV4cCI6MTY2NTc1MDAxNX0.OrfbkvehqAxPljjek20MLoTao3giGE6GUqMKUX0wzHA
 content-type: application/json
 
 {
-    "content": "ça va fonctionae ?!"
+    "content": "ça va OU PAS ?!"
   
     
 }
@@ -67,3 +67,7 @@ content-type: application/json
 {   
     "questionId": "2"
 }
+###
+DELETE  http://localhost:3000/question/2/answer/3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU1NjM0NjQsImV4cCI6MTY2NTgyMjY2NH0.2oRRfqlU8ELrgO7XOQ-ONs1ppg5iYEqYsk9Y6EdvTs4
+
+### 

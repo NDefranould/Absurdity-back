@@ -23,7 +23,7 @@ router.patch('/question/:questionId',handlerController(questionsController.updat
 /*This the road for delete one question*/ 
 router.delete('/question/:questionId',handlerController(questionsController.deleteQuestion));
 /*This the road for delete one question*/ 
-router.delete('/question/:questionId/answer',handlerController(questionsController.deleteAnswerAndVote));
+router.delete('/question/:questionId/answer/:answerId',handlerController(questionsController.deleteAnswerAndVote));
 
 
 

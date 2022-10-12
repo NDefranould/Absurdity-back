@@ -159,11 +159,8 @@ const questionsController = {
     /*This the function for unvoted answer*/
     async deleteAnswerAndVote(req, res, next) {
       
-      /*retrieve question id*/
-      const {questionId} = req.body.content;
-
       /*retrieve answer id*/
-      const {answerId} = req.params;
+      const {questionId, answerId} = req.params;
 
       /*Call the function unvoted with the answer id, user id and
         question id for unvoted the answer*/

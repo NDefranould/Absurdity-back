@@ -204,7 +204,6 @@ const questionsModel = {
                              question_id = $2`;                 
         const result = await db.query(query, [userId, questionId]);
 
-        console.log('result vote find', result);
         /*if have problem in database send 400*/
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Je n\'ai pas voté', null);
@@ -228,7 +227,8 @@ const questionsModel = {
         if(resultVerify.rowCount > 0){
             const resultInfo = new ResultInfos(false,400,'Can\'t put more vote answer by question', null);   
             return resultInfo.getInfos();
-        } 
+        }
+        
         /*The query sql add user id, question id and answer id for consider the vote*/
             const query = `INSERT INTO users_has_answers (user_id,question_id,answer_id) VALUES ($1,$2,$3)`
             const result = await db.query(query, [userId,questionId,answerId]);
@@ -256,7 +256,6 @@ const questionsModel = {
 
         /*if the user have already voted send 400*/
         if(resultVerify.rowCount === 0){
-            console.log('ici');
             const resultInfo = new ResultInfos(false,400,'Can\'t unvote', null);   
             return resultInfo.getInfos();
         } 

@@ -110,7 +110,6 @@ const questionsController = {
        });
        /*retrieve question id*/
        const {questionId} = req.params;
-       console.log('questionid', questionId, 'userid', userId);
        /*Call the function voted with the answer id, user id and
          question id for vote one answer by question*/
        const result = await questionsModel.haveIvoted(userId,questionId);
@@ -127,8 +126,8 @@ const questionsController = {
             return decodedToken.id;
         });
         /*retrieve question id*/
-        const questionId = req.body.questionId;
-        
+        const {questionId} = req.body.content;
+
         /*Call the function voted with the answer id, user id and
           question id for vote one answer by question*/
         const result = await questionsModel.voted(userId,questionId,answerId);
@@ -145,7 +144,6 @@ const questionsController = {
       
         /*retrieve question id*/
         const {questionId} = req.body.content;
-        console.log('req.questionId',questionId)
 
         /*retrieve answer id*/
         const {answerId} = req.params;

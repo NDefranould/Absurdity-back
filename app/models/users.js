@@ -292,6 +292,36 @@ const usersModel = {
             /*else send 200*/
             const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
             return resultInfo.getInfos();
+    },
+    /* The function for get all user  */    
+    async deleteUser(userId) {
+
+        /*The query sql for updated the answers of user before delete, transferred to user 1*/
+        const query0 = `UPDATE answers SET user_id = 1
+                        WHERE answers.user_id = $1 
+                        RETURNING *`;
+        const result0 = await db.query(query0, [userId]);
+        
+
+        /*The query sql for updated the votes of user before delete, transferred to user 1*/
+        const query1 = `UPDATE users_has_answers SET user_id = 1
+                        WHERE users_has_answers.user_id = $1 
+                        RETURNING *`;
+        const result1 = await db.query(query1, [userId]);
+
+        /*The query sql for searching all user*/
+        const query = `DELETE FROM users where id = $1`
+        const result = await db.query(query, [userId]);
+        
+        /*if have problem with database send 404*/
+        if (result.rowCount === 0) {
+            const resultInfo = new ResultInfos(false,404,'User not deleted.', result);   
+            return resultInfo.getInfos(); 
+        }else{
+        /*else send 200*/
+            const resultInfo = new ResultInfos(true,200,'User deleted.', result.rows);
+            return resultInfo.getInfos();
+        }
     }
 
 
@@ -299,39 +329,6 @@ const usersModel = {
 };
 
 
-// /*The query sql for verify if pseudo or email exist already*/
-// const queryVerify = `SELECT users.password FROM users 
-// WHERE users.id = $1`;                 
-// const resultVerify = await db.query(queryVerify, [userId]);
-
-// let transporter = nodemailer.createTransport({
-// service: "gmail",
-// auth: {
-// user: "nicolasdefranould@gmail.com",  
-// pass: "ljjlpdztfpuysxra", 
-// },
-// });
-
-// // send mail with defined transport object
-// let info = await transporter.sendMail({
-// from: "nicolasdefranould@gmail.com", 
-// to: "nicolasdefranould@gmail.com", 
-// subject: "Hello ✔", 
-// text: resultVerify.rows[0].password,
-
-// });
-// /*delete the password in the result*/
-// delete resultVerify.rows[0].password;
-
-// /*if have problem with database send 404*/
-// if (resultVerify.rowCount === 0) {
-// const resultInfo = new ResultInfos(false,400,'Can\'t send password.', null);   
-// return resultInfo.getInfos();
-// }else{
-// /*else send 201*/
-// const resultInfo = new ResultInfos(true,200,'Success to send password.', resultVerify.rows);
-// return resultInfo.getInfos();
-// }
 
        
 module.exports = usersModel;

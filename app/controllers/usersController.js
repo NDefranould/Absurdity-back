@@ -103,7 +103,17 @@ const usersController = {
       const result = await usersModel.verifyEmail();
        /*return if function has been applied or not*/ 
       res.status(result.statusCode).json(result);
-  }
+    },
+    /*This is the function for delete User*/
+    async deleteUserById(req, res, next) {
+
+      /*retrieve user id by the token*/
+      const {userId} = req.params;
+      /*Call the function delete with user id for delete this user*/
+      const result = await usersModel.deleteUser(userId);
+      /*return if function has been applied or not*/
+      res.status(result.statusCode).json(result);
+  },
 
 };
 

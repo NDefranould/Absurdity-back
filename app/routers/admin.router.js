@@ -12,6 +12,8 @@ router.use(tokenAuthAdmin.checkUser);
 /*Users*/
 /*This is the route for watch all users*/
 router.post('/users',handlerController(usersController.getAll));
+/*This the road for delete user by admin*/ 
+router.delete('/users/:userId',handlerController(usersController.deleteUserById));
 
 /*Questions*/
 /*This the road for create question*/ 

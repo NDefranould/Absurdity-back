@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "c",
-    "password": "c",
-    "email": "c@"
+    "pseudo": "e",
+    "password": "e",
+    "email": "e@"
 }
 
 ###
@@ -25,8 +25,8 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "c",
-    "password": "c"
+    "pseudo": "e",
+    "password": "e"
     
 }
 ###
@@ -73,3 +73,9 @@ POST http://localhost:3000/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJp
 
 ###
 POST http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUxNDQ2OTIsImV4cCI6MTY2NTQwMzg5Mn0.NF2BDs6oG1BRDcPh7dwLtXrA3yw99L1ZWrYJyahaapo
+
+### DELETE USER ADMIN
+DELETE  http://localhost:3000/users/3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicHNldWRvIjoiZSIsImVtYWlsIjoiZUAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU1NzcwNDIsImV4cCI6MTY2NTgzNjI0Mn0.zx2J6V83LUTZw_dEGkGjRUfu_Oq_dn8nu6cc58OfycY
+
+
+###

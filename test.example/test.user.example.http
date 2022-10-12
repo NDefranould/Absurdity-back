@@ -5,34 +5,20 @@ content-type: application/json
 {
     "pseudo": "username",
     "password": "userPassword",
-    "email": "romainchabard@gmail.com"
+    "email": "email@email.email"
 }
 ###
-POST http://localhost:3000/verify/email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsInBzZXVkbyI6InVzZXJuYW1lIiwiZW1haWwiOiJyb21haW5jaGFiYXJkQGdtYWlsLmNvbSIsInJvbGVfaWQiOjIsImNyZWF0ZWRfYXQiOiIyMDIyLTEwLTEyVDEzOjU0OjMzLjMzOFoiLCJ1cGRhdGVkX2F0IjpudWxsLCJlbWFpbF92ZXJpZnkiOmZhbHNlLCJpYXQiOjE2NjU1ODI4NzMsImV4cCI6MTY2NTg0MjA3M30.aPLVfKul_RWJio_2y3vv_CDfq24q6Bh-Hz-C3jNBjoo
-
-###
-# LOGIN
-POST https://absurdity.herokuapp.com/login HTTP/1.1
+# LOGIN YOU WILL GET A TOKEN
+POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "Admin",
-    "password": "IamAdministrator1"
+    "pseudo": "username",
+    "password": "userPassword"
     
 }
 ###
-# LOGIN
-POST http://localhost:3000/login HTTP/1.1
-content-type: application/json
-
-{
-    "pseudo": "romain7",
-    "password": "romain",
-    "email": "romain7@nicolas.com"
-}
-###
-
-# GET USER
+# ROUTE EMAIL CONFIRMATION
 POST http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInBzZXVkbyI6ImYiLCJlbWFpbCI6ImZAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUzODYyODYsImV4cCI6MTY2NTY0NTQ4Nn0.W39mfbOysyeEjnEiIb7PZdB9v8XepniO4InMTFQkjT4
 
 

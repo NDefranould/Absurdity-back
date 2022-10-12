@@ -96,11 +96,11 @@ const usersController = {
        /*return if function has been applied or not*/ 
       res.status(result.statusCode).json(result);
     },
-
     async emailVerify(req, res, next) {
       /*Call the function unvoted with the answer id, user id and
         question id for unvoted the answer*/
-      const result = await usersModel.verifyEmail();
+      const data = jwt.verify(req.query.token, process.env.PASSPHRASE,(err,decodedToken)=>{return decodedToken})
+      const result = await usersModel.verifyEmail(data);
        /*return if function has been applied or not*/ 
       res.status(result.statusCode).json(result);
     },

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const ResultInfos = require('./resultInfo');
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (jsonObject) => {
   return jwt.sign( jsonObject, process.env.PASSPHRASE, {
@@ -37,19 +38,79 @@ const usersModel = {
         /*delete the password in the result*/
         delete result.rows[0].password;
         const id = result.rows[0].id    
+
         /*if have problem with database send 404*/
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false,400,'Can\'t insert.', null);   
             return resultInfo.getInfos();
         }else{
         /*else send 201*/
-            usersModel.verifyEmail(id);
+            //FOR ADD EMAIL VERIFICATION DECOMMENT
+            usersModel.sendVerifyEmail(id);
             const resultInfo = new ResultInfos(true,201,'Success to create account.', result.rows[0]);
             return resultInfo.getInfos();
             }
         }
     },
+    async sendVerifyEmail(id) {
+         
+        const query = `SELECT * FROM users 
+                       WHERE users.id = $1`;                 
+        const result = await db.query(query, [id]);
+        const email = await result.rows[0].email;
+        delete result.rows[0].password;
+        console.log(result.rows[0])
+        const token = createToken(result.rows[0]);
+        
+        var transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "nicolasdefranould@gmail.com",
+                pass: "ljjlpdztfpuysxra"
+            }
+        });
+        
+        const info = await transporter.sendMail({
+            from: "nicolasdefranould@gmail.com", 
+            to: email,  
+            subject: "Hello ✔", 
+            text:  "Click here for verify your email " + `https://absurdity.vercel.app/emailverify?token=${token}`,
+            
+          });
+            /*else send 200*/
+            const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
+            return resultInfo.getInfos();
+    },
+    async verifyEmail(dataToken) {
+        //here we have to create function to verify email with token               
+        const query = `SELECT * FROM users 
+                       WHERE users.id = $1`;                 
+        const result = await db.query(query, [dataToken.id]);
+        delete result.rows[0].password;
 
+        if(result.rowCount === 0){
+            const resultInfo = new ResultInfos(false,404,'User not found.', result);
+            return resultInfo.getInfos();
+        };
+        console.log('result.rows[0]',result.rows[0]);
+        console.log(result.rows[0].created_at.toString())
+        console.log('datatoken',dataToken);
+        if(result.rows[0].pseudo === dataToken.pseudo && result.rows[0].email === dataToken.email){
+            // if token = okay set email_verify to true
+            const query0 = `UPDATE users SET email_verify = '1'
+            WHERE users.id = $1 RETURNING *`;                 
+            const result0 = await db.query(query0, [dataToken.id]);
+            console.log('result0',result0);
+            /*else send 200*/
+            const resultInfo = new ResultInfos(true,200,'Success to verify account.', result0);
+            return resultInfo.getInfos();
+        }else{
+            /*else send 200*/
+            const resultInfo = new ResultInfos(false,400,'Error to verify.', {});
+            return resultInfo.getInfos();
+        }
+
+    },
     /* This function for loggin, is useful for identify user */
     async login(pseudo, password) {
 
@@ -264,35 +325,7 @@ const usersModel = {
         
     },
 
-    async verifyEmail(id) {
-         
-        const query = `SELECT users.email FROM users 
-                       WHERE users.id = $1`;                 
-        const result = await db.query(query, [id]);
-        // const email = await result.rows[0].email; for to for email send
-        const query0 = `UPDATE users SET email_verify = '1'
-                        WHERE users.id = $1 RETURNING *`;                 
-        const result0 = await db.query(query0, [id]);
-        
-        var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "nicolasdefranould@gmail.com",
-                pass: "ljjlpdztfpuysxra"
-            }
-        });
-        
-        const info = await transporter.sendMail({
-            from: "nicolasdefranould@gmail.com", 
-            to: "nicolasdefranould@gmail.com",  
-            subject: "Hello ✔", 
-            text:  "Click here for verify your email " + `http://localhost:3000/useremailverify`,
-            
-          });
-            /*else send 200*/
-            const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
-            return resultInfo.getInfos();
-    },
+
     /* The function for get all user  */    
     async deleteUser(userId) {
 

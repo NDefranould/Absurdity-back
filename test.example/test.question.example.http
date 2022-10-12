@@ -1,0 +1,73 @@
+GET http://localhost:3000/dailyquestion
+
+###
+GET http://localhost:3000/questions
+
+###
+POST http://localhost:3000/questions?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU0ODkxNjUsImV4cCI6MTY2NTc0ODM2NX0.Rrd3XD8HCLtSs-3QLQH9VVi2SykTRC8eRK6Us2ypB8o
+content-type: application/json
+
+{
+    
+    "content": "bonaezeazzao ?"
+    
+}
+###
+
+POST http://localhost:3000/questions?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInBzZXVkbyI6ImIiLCJlbWFpbCI6ImJAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjU0MDM3NDcsImV4cCI6MTY2NTY2Mjk0N30.Mdyyp843hMfr2081VlrbLqdpIocebVw2HZCWg8ZA51A
+content-type: application/json
+
+{
+    
+    "content": "bonaazzzazao ?"
+    
+}
+###
+GET http://localhost:3000/question/1
+
+###
+
+PATCH http://localhost:3000/question/1
+content-type: application/json
+
+{
+    "content": "coucou les loulou !"
+    
+}
+### 
+
+DELETE  http://localhost:3000/question/2?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU1NjM0NjQsImV4cCI6MTY2NTgyMjY2NH0.2oRRfqlU8ELrgO7XOQ-ONs1ppg5iYEqYsk9Y6EdvTs4
+
+### 
+GET http://localhost:3000/question/4/answers
+
+###
+
+POST http://localhost:3000/question/1/answer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU0OTA4MTUsImV4cCI6MTY2NTc1MDAxNX0.OrfbkvehqAxPljjek20MLoTao3giGE6GUqMKUX0wzHA
+content-type: application/json
+
+{
+    "content": "ça va OU PAS ?!"
+  
+    
+}
+
+###
+POST http://localhost:3000/question/1/voted?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU0ODkzMjEsImV4cCI6MTY2NTc0ODUyMX0.OXoHLmzx5e_9VATdXh4Xp8DLGBZjAwYbabs_y_K5TgQ
+content-type: application/json
+
+{   
+    "questionId": "1"
+}
+
+###
+POST  http://localhost:3000/question/1/unvoted?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUzODYyNzIsImV4cCI6MTY2NTY0NTQ3Mn0.vT0Whgg7q740_yp0NVjz1uL72DJEeX4Y3JilHucdTVU
+content-type: application/json
+
+{   
+    "questionId": "2"
+}
+###
+DELETE  http://localhost:3000/question/2/answer/3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHNldWRvIjoiYyIsImVtYWlsIjoiY0AiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjU1NjM0NjQsImV4cCI6MTY2NTgyMjY2NH0.2oRRfqlU8ELrgO7XOQ-ONs1ppg5iYEqYsk9Y6EdvTs4
+
+### 

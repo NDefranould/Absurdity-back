@@ -1,8 +1,10 @@
 const {Router} = require('express');
 const router = Router();
+
 const handlerController = require('../controllers/handlerController');
 const usersController = require('../controllers/usersController');
 const questionsController = require('../controllers/questionController');
+
 const tokenAuth = require('../middlewares/auth');
 
 /*Authentification*/
@@ -11,10 +13,6 @@ router.use(tokenAuth.checkUser);
 /*Users*/
 /*This is the route for Find user By Id*/
 router.get('/user',handlerController(usersController.getOneByPk));
-/*This is the route for send for retrieved password by email*/
-router.post('/useremailverify',handlerController(usersController.emailVerify));
-/*This is the route for send for retrieved password by email*/
-router.post('/user',handlerController(usersController.passwordForgot));
 /*This is the route for update the account of the user*/
 router.patch('/user',handlerController(usersController.update));
 /*This is the route for delete the account of the user*/

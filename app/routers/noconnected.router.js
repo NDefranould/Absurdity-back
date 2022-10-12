@@ -15,6 +15,11 @@ router.post('/login',handlerController(usersController.login));
 /*This is the route for verify token for front*/
 router.get('/checkuser',tokenAuth.checkUser);
 
+/*This is the route for send for confirm account*/
+router.post('/verify/email',handlerController(usersController.emailVerify));
+/*This is the route for send for retrieved password by email*/
+router.post('/retrieve/password',handlerController(usersController.passwordForgot));
+
 /*Questions*/
 /*This the road get question of the day without answer*/ 
 router.get('/dailyquestion', handlerController(questionsController.getQuestionOfTheDay));

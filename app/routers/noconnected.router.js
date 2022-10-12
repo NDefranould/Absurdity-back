@@ -16,7 +16,7 @@ router.post('/login',handlerController(usersController.login));
 router.get('/checkuser',tokenAuth.checkUser);
 
 /*This is the route for send for confirm account*/
-router.post('/verify/email',handlerController(usersController.emailVerify));
+router.get('/verify/email',handlerController(usersController.emailVerify));
 /*This is the route for send for retrieved password by email*/
 router.post('/retrieve/password',handlerController(usersController.passwordForgot));
 

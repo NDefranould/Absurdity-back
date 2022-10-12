@@ -27,7 +27,7 @@ async function launchQuestionOfTheDay(){
 };
 
 const job = new CronJob(
-    '0 */10 * * * *', //'00 00 12 * * 0-6',
+    '00 00 12 * * 0-6', //toutes les 10 minutes : '0 */10 * * * *'  Tous les jours à 12h '00 00 12 * * 0-6',
      async function() {
         await resetYesterdayQuestion();
         await launchQuestionOfTheDay();

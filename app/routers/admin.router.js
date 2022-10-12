@@ -22,7 +22,8 @@ router.get('/admin/questions', handlerController(questionsController.getAllQuest
 router.patch('/question/:questionId',handlerController(questionsController.updateQuestion));
 /*This the road for delete one question*/ 
 router.delete('/question/:questionId',handlerController(questionsController.deleteQuestion));
-
+/*This the road for delete one question*/ 
+router.delete('/question/:questionId/answer/:answerId',handlerController(questionsController.deleteAnswerAndVote));
 
 
 

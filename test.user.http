@@ -3,6 +3,17 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
+    "pseudo": "c",
+    "password": "c",
+    "email": "c@"
+}
+
+###
+# SIGNUP
+POST http://localhost:3000/sign-up HTTP/1.1
+content-type: application/json
+
+{
     "pseudo": "b",
     "password": "b",
     "email": "b@"
@@ -14,8 +25,8 @@ POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "b",
-    "password": "b"
+    "pseudo": "c",
+    "password": "c"
     
 }
 ###

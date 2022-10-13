@@ -2,18 +2,20 @@ const CronJob = require('cron/lib/cron.js').CronJob;
 const db = require('../config/db');
 
 async function resetYesterdayQuestion(){
-    const query = `UPDATE questions 
-                    SET question_of_the_day=false, already_asked = true 
-                    WHERE question_of_the_day=true RETURNING *`;
-    const result = await db.query(query,[]);
-    console.log('-------------------[LAST QUESTION OF THE DAY]-----------------------')
-    console.log(result.rows[0]);
-    console.log('-------------------------------------------------------------------')
+
 };
 
 async function launchQuestionOfTheDay(){
+    const queryReset = `UPDATE questions 
+    SET question_of_the_day=false
+    WHERE question_of_the_day=true RETURNING *`;
+    const resultReset = await db.query(query,[]);
+    console.log('-------------------[LAST QUESTION OF THE DAY]-----------------------')
+    console.log(result.rows[0]);
+    console.log('-------------------------------------------------------------------')
+
     const query = `UPDATE questions 
-                    SET question_of_the_day=true, date_of_publication = CURRENT_TIMESTAMP
+                    SET question_of_the_day=true, date_of_publication = CURRENT_TIMESTAMP, already_asked = true 
                     WHERE questions.id=(SELECT questions.id 
                                         FROM questions 
                                         WHERE already_asked=false 
@@ -27,7 +29,7 @@ async function launchQuestionOfTheDay(){
 };
 
 const job = new CronJob(
-    '00 00 12 * * 0-6', //toutes les 10 minutes : '0 */10 * * * *'  Tous les jours à 12h '00 00 12 * * 0-6',
+    '0 */5 * * * *', //toutes les 10 minutes : '0 */10 * * * *'  Tous les jours à 12h '00 00 12 * * 0-6',
      async function() {
         await resetYesterdayQuestion();
         await launchQuestionOfTheDay();

@@ -93,17 +93,20 @@ const questionsModel = {
           Return question id,date_pub (publication) order of publication rank descending, question content,
           pseudo.answer (who wrote the answer), answer_id, answer content,
           vote (number of votes on the answer) descending rank order of vote, with all answers by question*/
-        const result = await db.query(`SELECT questions.id AS question_id, questions.content AS question,questions.date_pub AS date_pub,json_agg(questions.request) AS list_answers
-                                       FROM (SELECT questions.id, questions.content,questions.date_of_publication AS date_pub,
-                                       json_build_object('pseudo', users.pseudo,'answer_id',answers.id,'answer',answers.content,'vote',
-                                       answers.vote_count) as request FROM questions
-                                       LEFT JOIN answers ON answers.question_id = questions.id
-                                       LEFT JOIN users ON users.id = answers.user_id
-                                       WHERE questions.date_of_publication IS NOT NULL AND question_of_the_day=false
-                                       GROUP BY questions.id, questions.content,date_pub,answers.content,answers.vote_count,answers.id,users.pseudo
-                                       ORDER BY answers.vote_count DESC) as questions
-                                       GROUP BY  questions.id, questions.content,questions.date_pub 
-                                       ORDER BY date_pub DESC`);
+        let result = await db.query(`SELECT id,content,date_of_publication from questions WHERE already_asked=true AND question_of_the_day=false ORDER BY date_of_publication DESC`);
+
+        for(let i = 0; i < result.rows.length;i++){
+            const queryAnswers = `SELECT content, vote_count FROM answers WHERE question_id=$1 ORDER BY created_at ASC`;
+            const resultAnswer = await db.query(queryAnswers,[result.rows[i].id]);
+            let biggest = {vote_count:0};
+            for(let y = 0; y < resultAnswer.rows.length;y++){
+                if(resultAnswer.rows[y].vote_count > biggest.vote_count)
+                {
+                    biggest = resultAnswer.rows[y];
+                }
+            }
+            result.rows[i].list_answers = biggest;
+        }
 
         /*if the query don't have find send 404*/
         if (result.rowCount === 0) {

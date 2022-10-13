@@ -39,29 +39,37 @@ const usersModel = {
         delete result.rows[0].password;
         const id = result.rows[0].id    
 
-        /*if have problem with database send 404*/
+        /*if have problem with database send 400*/
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false,400,'Can\'t insert.', null);   
             return resultInfo.getInfos();
         }else{
         /*else send 201*/
-            //FOR ADD EMAIL VERIFICATION DECOMMENT
+            /*for add email verification*/
             usersModel.sendVerifyEmail(id);
             const resultInfo = new ResultInfos(true,201,'Success to create account.', result.rows[0]);
             return resultInfo.getInfos();
             }
         }
     },
+    /* This is function for sendVerifyEmail*/
     async sendVerifyEmail(id) {
-         
+
+         /*The query sql check if user exist */
         const query = `SELECT * FROM users 
                        WHERE users.id = $1`;                 
         const result = await db.query(query, [id]);
+
+        /*searching the email of user*/
         const email = await result.rows[0].email;
+
+        /*Delete password for security*/
         delete result.rows[0].password;
-        console.log(result.rows[0])
-        const token = createToken(result.rows[0]);
         
+        /*token for email*/
+        const token = createToken(result.rows[0]);
+
+        /*Account for send email with user and password*/
         var transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -70,6 +78,7 @@ const usersModel = {
             }
         });
         
+        /*Is content from email for verification email*/
         const info = await transporter.sendMail({
             from: "nicolasdefranould@gmail.com", 
             to: email,  
@@ -77,53 +86,66 @@ const usersModel = {
             text:  "Click here for verify your email " + `https://absurdity.vercel.app/emailverify?token=${token}`,
             
           });
-            /*else send 200*/
-            const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
-            return resultInfo.getInfos();
+        /*send 200*/
+        const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
+        return resultInfo.getInfos();
     },
+
+    /*This is function for verifyEmail */
     async verifyEmail(dataToken) {
-        //here we have to create function to verify email with token               
+
+        /*the query sql check user exist*/              
         const query = `SELECT * FROM users 
                        WHERE users.id = $1`;                 
         const result = await db.query(query, [dataToken.id]);
         delete result.rows[0].password;
 
+        /*If user don't exist send 404*/
         if(result.rowCount === 0){
             const resultInfo = new ResultInfos(false,404,'User not found.', result);
             return resultInfo.getInfos();
         };
+        /*Check if pseudo and email is the same in query and token send by email*/
         if(result.rows[0].pseudo === dataToken.pseudo && result.rows[0].email === dataToken.email){
-            // if token = okay set email_verify to true
+
+            /* if token = okay set email_verify to true*/
             const query0 = `UPDATE users SET email_verify = '1'
-            WHERE users.id = $1 RETURNING *`;                 
+                            WHERE users.id = $1 RETURNING *`;                 
             const result0 = await db.query(query0, [dataToken.id]);
-            /*else send 200*/
+
+            /*Send 200*/
             const resultInfo = new ResultInfos(true,200,'Success to verify account.', result0);
             return resultInfo.getInfos();
         }else{
-            /*else send 200*/
+        /*else send 400*/
             const resultInfo = new ResultInfos(false,400,'Error to verify.', {});
             return resultInfo.getInfos();
         }
 
     },
+
     /* This function for loggin, is useful for identify user */
     async login(pseudo, password) {
 
         /*The query sql for login with pseudo or email*/
-        const query = `SELECT users.id, pseudo, password, email, roles.name AS role
+        const query =  `SELECT users.id, pseudo, password, email, roles.name AS role
                         FROM users
                         JOIN roles ON roles.id = role_id 
                         WHERE email_verify=true AND pseudo=$1 OR email=$1`;
+
         const result = await db.query(query, [pseudo] );
         let deCrypt = false;
+
         /*if retrieved the pseudo or email and the password in database*/
         if(result.rowCount && result.rows[0].password){
-        /*compare the password hash in the database with that the user have enter */
-            deCrypt = await bcrypt.compare(password, result.rows[0].password);// expect true or false
+
+        /*compare the password hash in the database with that the user have enter*/
+            deCrypt = await bcrypt.compare(password, result.rows[0].password);/* expect true or false*/
+
         /*delete the password in the result*/
             delete result.rows[0].password;
         }
+
         /*if the pseudo or email or the password are incorrect sends 404*/
         if (result.rowCount === 0 || !deCrypt) {
             const resultInfo = new ResultInfos(false,404,'Identification doesn\'t match', null);   
@@ -151,6 +173,7 @@ const usersModel = {
             /*delete the password in the result*/  
             delete result.rows[0].password;
         }
+
         /*if don't have find to user*/
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false,404,'User not found.', result);   
@@ -162,7 +185,7 @@ const usersModel = {
         }
     },
 
-    /* The function for get all user  */    
+    /*The function for get all user*/    
     async getAll() {
 
         /*The query sql for searching all user*/
@@ -170,6 +193,7 @@ const usersModel = {
                         FROM users
                         JOIN roles ON roles.id = role_id`
         const result = await db.query(query);
+
         /*is the loop for delete all password ine the result*/
         result.rows.forEach(user => { delete user.password });
 
@@ -184,7 +208,7 @@ const usersModel = {
         }
     },
 
-    /* The function for update user  */    
+    /*The function for update user*/    
     async update(pseudo, password, email, id) {
 
         /*the user would change pseudo or email, 
@@ -192,9 +216,9 @@ const usersModel = {
         if(pseudo != undefined || email != undefined ) {
             
             /*The query sql check if the user or the email exist in database*/
-            const queryVerify = `SELECT *
-                                 FROM users
+            const queryVerify = `SELECT * FROM users
                                  WHERE users.pseudo=$1 OR users.email=$2`;
+
             /*Check in the database*/
             const resultVerify = await db.query(queryVerify, [pseudo,email]);
 
@@ -204,6 +228,7 @@ const usersModel = {
                 return resultInfo.getInfos();
             } 
         }
+
         /*for send than the user is updated*/
         let result1 = null;
 
@@ -226,13 +251,16 @@ const usersModel = {
               const result = await db.query(newEmail,[email, id]);
               result1 = result;
           }
+
+          /*Delete password for security*/
           delete result1.rows[0].password;
 
+            /*The query sql for send information in the user*/
             const query = `SELECT users.id, pseudo, email, roles.name AS role
-             FROM users
-             JOIN roles ON roles.id = role_id 
-             WHERE users.id=$1`;
-            result1 = await db.query(query, [id]);    
+                           FROM users JOIN roles ON roles.id = role_id 
+                           WHERE users.id=$1`;
+            result1 = await db.query(query, [id]);  
+
             /*Send 200*/
             const resultInfo = new ResultInfos(true,200,'User updated.', {token: createToken(result1.rows[0])});
             return resultInfo.getInfos();      
@@ -275,7 +303,7 @@ const usersModel = {
         return resultInfo.getInfos();
     },
 
-    /*This the function for create new User, is useful for create account*/
+    /*This the function for retrievedPass*/
     async retrievedPass(userId) {
 
         /*The query sql for verify if pseudo or email exist already*/
@@ -283,12 +311,12 @@ const usersModel = {
                              WHERE users.id = $1`;                 
         const resultVerify = await db.query(queryVerify, [userId]);
 
-
+        /*The query sql for update password random*/
         const query = `UPDATE users SET password = ROUND(RANDOM()*1000000)
                        WHERE users.id = $1 RETURNING *`;                 
         const result = await db.query(query, [userId]);
         
-
+        /*The account for send email with user password*/
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -296,12 +324,13 @@ const usersModel = {
               pass: "ljjlpdztfpuysxra", 
             },
           });
+
         //   resultVerify.rows[0].email,
-          // send mail with defined transport object
+          /*is the content in the email*/
           let info = await transporter.sendMail({
             from: "nicolasdefranould@gmail.com", 
             to: "nicolasdefranould@gmail.com",  
-            subject: "Hello ✔", 
+            subject: "Hello", 
             text:  "you new password is " + result.rows[0].password,
             
             
@@ -309,7 +338,7 @@ const usersModel = {
           /*delete the password in the result*/
             delete result.rows[0].password;
 
-            /*if have problem with database send 404*/
+            /*if have problem with database send 400*/
             if (resultVerify.rowCount === 0) {
             const resultInfo = new ResultInfos(false,400,'Can\'t send password.', null);   
             return resultInfo.getInfos();
@@ -322,7 +351,7 @@ const usersModel = {
     },
 
 
-    /* The function for get all user  */    
+    /* The function for delete user by id*/    
     async deleteUser(userId) {
 
         /*The query sql for updated the answers of user before delete, transferred to user 1*/
@@ -338,7 +367,7 @@ const usersModel = {
                         RETURNING *`;
         const result1 = await db.query(query1, [userId]);
 
-        /*The query sql for searching all user*/
+        /*The query sql for delete user by id*/
         const query = `DELETE FROM users where id = $1`
         const result = await db.query(query, [userId]);
         

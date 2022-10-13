@@ -11,6 +11,23 @@ const createToken = (jsonObject) => {
   });
 };
 
+async function sendEmail(email, subject ,text){
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "nicolasdefranould@gmail.com",
+            pass: "ljjlpdztfpuysxra"
+        }
+    });
+    const info = await transporter.sendMail({
+        from: "nicolasdefranould@gmail.com", 
+        to: email,  
+        subject: subject, 
+        text: text,
+        
+      });
+}
+
 const usersModel = {
 
     /*This the function for create new User, is useful for create account*/
@@ -65,28 +82,25 @@ const usersModel = {
 
         /*Delete password for security*/
         delete result.rows[0].password;
-        
-        /*token for email*/
+        console.log(result.rows[0]);
         const token = createToken(result.rows[0]);
 
-        /*Account for send email with user and password*/
-        var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "nicolasdefranould@gmail.com",
-                pass: "ljjlpdztfpuysxra"
-            }
-        });
-        
-        /*Is content from email for verification email*/
-        const info = await transporter.sendMail({
-            from: "nicolasdefranould@gmail.com", 
-            to: email,  
-            subject: "Hello ✔", 
-            text:  "Click here for verify your email " + `https://absurdity.vercel.app/emailverify?token=${token}`,
-            
-          });
-        /*send 200*/
+        const subject = "Confirmation inscription"
+        const text = `Bonjour,
+
+        Vous venez de créer un compte sur le site d'Absurdity, merci de confirmer votre adresse email en cliquant sur le lien ci-dessous.
+
+         https://absurdity.vercel.app/emailverify?token=${token}
+         
+         Merci.
+         Cordialement,
+         L'équipe d'Absurdity
+         www.absurdity.vercel.app
+         `;
+
+        await sendEmail(email,subject,text);
+
+        /*else send 200*/
         const resultInfo = new ResultInfos(true,200,'Success to send email confirmation.', result);
         return resultInfo.getInfos();
     },
@@ -303,50 +317,57 @@ const usersModel = {
         return resultInfo.getInfos();
     },
 
-    /*This the function for retrievedPass*/
-    async retrievedPass(userId) {
+    /*This the function for create new User, is useful for create account*/
+    async retrievedPass(email) {
+
 
         /*The query sql for verify if pseudo or email exist already*/
         const queryVerify = `SELECT users.email FROM users 
-                             WHERE users.id = $1`;                 
-        const resultVerify = await db.query(queryVerify, [userId]);
+                             WHERE users.email = $1`;                 
+        const resultVerify = await db.query(queryVerify, [email]);
 
-        /*The query sql for update password random*/
-        const query = `UPDATE users SET password = ROUND(RANDOM()*1000000)
-                       WHERE users.id = $1 RETURNING *`;                 
-        const result = await db.query(query, [userId]);
+        if (resultVerify.rowCount === 0) {
+            const resultInfo = new ResultInfos(false,400,'Can\'t find user email.', null);   
+            return resultInfo.getInfos();
+        };
+
+        function randomIntFromInterval(min, max) { // min and max included 
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+          
+        const rndInt = randomIntFromInterval(100000, 999999)
+        const randomHash = bcrypt.hashSync(rndInt.toString(), 10);
+        const query = `UPDATE users SET password = $2
+                       WHERE users.email = $1 RETURNING *`;                 
+        const result = await db.query(query, [email, randomHash]);
+
+        const text = `Bonjour ${result.rows[0].pseudo}, 
+            
+        Nous avons réceptionné une demande pour un changement de mot de passe.
+        Ci-dessous votre nouveau mot de passe! 
+        Penses à le changer après t'être connecté!!
+
+        ${rndInt}
         
-        /*The account for send email with user password*/
-        let transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: "nicolasdefranould@gmail.com",  
-              pass: "ljjlpdztfpuysxra", 
-            },
-          });
+        Merci.
+        Cordialement,
+        L'équipe d'Absurdity
+        www.absurdity.vercel.app
+        `
+        await sendEmail(resultVerify.rows[0].email,"Forget password",text);
 
-        //   resultVerify.rows[0].email,
-          /*is the content in the email*/
-          let info = await transporter.sendMail({
-            from: "nicolasdefranould@gmail.com", 
-            to: "nicolasdefranould@gmail.com",  
-            subject: "Hello", 
-            text:  "you new password is " + result.rows[0].password,
-            
-            
-          });
-          /*delete the password in the result*/
-            delete result.rows[0].password;
+        /*delete the password in the result*/
+        delete result.rows[0].password;
 
-            /*if have problem with database send 400*/
-            if (resultVerify.rowCount === 0) {
-            const resultInfo = new ResultInfos(false,400,'Can\'t send password.', null);   
-            return resultInfo.getInfos();
-            }else{
-            /*else send 200*/
-            const resultInfo = new ResultInfos(true,200,'Success to send password.', resultVerify.rows);
-            return resultInfo.getInfos();
-            }
+        /*if have problem with database send 404*/
+        if (result.rowCount === 0) {
+        const resultInfo = new ResultInfos(false,400,'Can\'t send password.', null);   
+        return resultInfo.getInfos();
+        }else{
+        /*else send 200*/
+        const resultInfo = new ResultInfos(true,200,'Success to send email password.', result.rows[0]);
+        return resultInfo.getInfos();
+        }
         
     },
 

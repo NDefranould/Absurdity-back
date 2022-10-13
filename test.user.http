@@ -3,9 +3,9 @@ POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "username",
-    "password": "userPassword",
-    "email": "romainchabard@gmail.com"
+    "pseudo": "compteFake",
+    "password": "compteFake",
+    "email": "fake@gmail.com"
 }
 ###
 POST http://localhost:3000/verify/email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsInBzZXVkbyI6InVzZXJuYW1lIiwiZW1haWwiOiJyb21haW5jaGFiYXJkQGdtYWlsLmNvbSIsInJvbGVfaWQiOjIsImNyZWF0ZWRfYXQiOiIyMDIyLTEwLTEyVDEzOjU0OjMzLjMzOFoiLCJ1cGRhdGVkX2F0IjpudWxsLCJlbWFpbF92ZXJpZnkiOmZhbHNlLCJpYXQiOjE2NjU1ODI4NzMsImV4cCI6MTY2NTg0MjA3M30.aPLVfKul_RWJio_2y3vv_CDfq24q6Bh-Hz-C3jNBjoo
@@ -59,3 +59,15 @@ POST http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ
 
 ###
 DELETE https://absurdity.herokuapp.com/users/34?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInBzZXVkbyI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5mciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2NTU3NzYxNywiZXhwIjoxNjY1ODM2ODE3fQ.ld9NCCQ_oJBsx8T5pk8ysqdBoNqra9hhTcLh9P1vwMU
+
+###
+
+POST http://localhost:3000/retrieve/password
+content-type: application/json
+
+{
+    "content": {
+                "email": "romainchabard@gmail.com" 
+    }
+      
+}

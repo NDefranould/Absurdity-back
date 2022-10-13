@@ -7,7 +7,7 @@ async function resetYesterdayQuestion(){
 
 async function launchQuestionOfTheDay(){
     const queryReset = `UPDATE questions 
-    SET question_of_the_day=false
+    SET question_of_the_day=false, already_asked = true
     WHERE question_of_the_day=true RETURNING *`;
     const resultReset = await db.query(queryReset,[]);
     console.log('-------------------[LAST QUESTION OF THE DAY]-----------------------')

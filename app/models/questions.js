@@ -99,7 +99,7 @@ const questionsModel = {
             const queryAnswers = `SELECT answers.id AS answer_id ,answers.content AS answer, answers.vote_count AS vote, answers.created_at, users.pseudo FROM answers 
             LEFT JOIN users ON users.id = answers.user_id
             WHERE question_id=$1 ORDER BY created_at ASC`;
-            const resultAnswer = await db.query(queryAnswers,[result.rows[i].id]);
+            const resultAnswer = await db.query(queryAnswers,[result.rows[i].question_id]);
             let biggest = {vote:0};
             for(let y = 0; y < resultAnswer.rows.length;y++){
                 if(resultAnswer.rows[y].vote > biggest.vote)

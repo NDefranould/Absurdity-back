@@ -320,7 +320,8 @@ const usersModel = {
     /*This the function for create new User, is useful for create account*/
     async retrievedPass(email) {
 
-
+        console.log(email);
+        console.log(typeof email);
         /*The query sql for verify if pseudo or email exist already*/
         const queryVerify = `SELECT users.email FROM users 
                              WHERE users.email = $1`;                 

@@ -9,7 +9,7 @@ async function launchQuestionOfTheDay(){
     const queryReset = `UPDATE questions 
     SET question_of_the_day=false
     WHERE question_of_the_day=true RETURNING *`;
-    const resultReset = await db.query(query,[]);
+    const resultReset = await db.query(queryReset,[]);
     console.log('-------------------[LAST QUESTION OF THE DAY]-----------------------')
     console.log(result.rows[0]);
     console.log('-------------------------------------------------------------------')

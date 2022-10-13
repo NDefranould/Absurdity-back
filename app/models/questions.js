@@ -96,18 +96,18 @@ const questionsModel = {
         let result = await db.query(`SELECT id,content,date_of_publication from questions WHERE already_asked=true AND question_of_the_day=false ORDER BY date_of_publication DESC`);
         console.log('ici')
         for(let i = 0; i < result.rows.length;i++){
-            const queryAnswers = `SELECT answers.content, answers.vote_count, answers.created_at, users.pseudo FROM answers 
+            const queryAnswers = `SELECT answers.content, answers.vote_count AS vote, answers.created_at, users.pseudo FROM answers 
             LEFT JOIN users ON users.id = answers.user_id
             WHERE question_id=$1 ORDER BY created_at ASC`;
             const resultAnswer = await db.query(queryAnswers,[result.rows[i].id]);
-            let biggest = {vote_count:0};
+            let biggest = {vote:0};
             for(let y = 0; y < resultAnswer.rows.length;y++){
-                if(resultAnswer.rows[y].vote_count > biggest.vote_count)
+                if(resultAnswer.rows[y].vote > biggest.vote)
                 {
                     biggest = resultAnswer.rows[y];
                 }
             }
-            result.rows[i].list_answers = biggest;
+            result.rows[i].list_answers = [biggest];
         }
         console.log('error ici')
         /*if the query don't have find send 404*/

@@ -86,13 +86,12 @@ const usersController = {
 
     /*This the function for unvoted answer*/
     async passwordForgot(req, res, next) {
-      /*retrieve user id*/
-      const userId = jwt.verify(req.query.token,process.env.PASSPHRASE, (err, decodedToken) => {
-        return decodedToken.id;
-    });
+      /*retrieve user email*/
+      const email = req.body.content.email;
+
       /*Call the function unvoted with the answer id, user id and
         question id for unvoted the answer*/
-      const result = await usersModel.retrievedPass(userId);
+      const result = await usersModel.retrievedPass(email);
        /*return if function has been applied or not*/ 
       res.status(result.statusCode).json(result);
     },

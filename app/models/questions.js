@@ -93,10 +93,10 @@ const questionsModel = {
           Return question id,date_pub (publication) order of publication rank descending, question content,
           pseudo.answer (who wrote the answer), answer_id, answer content,
           vote (number of votes on the answer) descending rank order of vote, with all answers by question*/
-        let result = await db.query(`SELECT id,content,date_of_publication from questions WHERE already_asked=true AND question_of_the_day=false ORDER BY date_of_publication DESC`);
+        let result = await db.query(`SELECT id AS question_id,content AS question,date_of_publication AS date_of_pub from questions WHERE already_asked=true AND question_of_the_day=false ORDER BY date_of_publication DESC`);
         console.log('ici')
         for(let i = 0; i < result.rows.length;i++){
-            const queryAnswers = `SELECT answers.content, answers.vote_count AS vote, answers.created_at, users.pseudo FROM answers 
+            const queryAnswers = `SELECT answers.id AS answer_id ,answers.content AS answer, answers.vote_count AS vote, answers.created_at, users.pseudo FROM answers 
             LEFT JOIN users ON users.id = answers.user_id
             WHERE question_id=$1 ORDER BY created_at ASC`;
             const resultAnswer = await db.query(queryAnswers,[result.rows[i].id]);

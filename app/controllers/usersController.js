@@ -100,7 +100,7 @@ const usersController = {
 
       /*Call the function unvoted with the answer id, user id and
         question id for unvoted the answer*/
-      const result = await usersModel.retrievedPass(email);
+      const result = await usersModel.retrievedPass(req.body.content.email);
 
        /*return if function has been applied or not*/ 
       res.status(result.statusCode).json(result);

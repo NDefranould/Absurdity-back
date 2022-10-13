@@ -94,11 +94,11 @@ const questionsModel = {
           pseudo.answer (who wrote the answer), answer_id, answer content,
           vote (number of votes on the answer) descending rank order of vote, with all answers by question*/
         let result = await db.query(`SELECT id,content,date_of_publication from questions WHERE already_asked=true AND question_of_the_day=false ORDER BY date_of_publication DESC`);
-
+        console.log('ici')
         for(let i = 0; i < result.rows.length;i++){
             const queryAnswers = `SELECT answers.content, answers.vote_count, answers.created_at, users.pseudo FROM answers 
             LEFT JOIN users ON users.id = answers.user_id
-            WHERE question_id=3 ORDER BY created_at ASC`;
+            WHERE question_id=$1 ORDER BY created_at ASC`;
             const resultAnswer = await db.query(queryAnswers,[result.rows[i].id]);
             let biggest = {vote_count:0};
             for(let y = 0; y < resultAnswer.rows.length;y++){
@@ -109,7 +109,7 @@ const questionsModel = {
             }
             result.rows[i].list_answers = biggest;
         }
-
+        console.log('error ici')
         /*if the query don't have find send 404*/
         if (result.rowCount === 0) {
             const resultInfo = new ResultInfos(false, 404, 'Questions not found.', null);

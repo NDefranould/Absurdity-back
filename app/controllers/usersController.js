@@ -97,7 +97,7 @@ const usersController = {
 
     /*This the function for password forgot*/
     async passwordForgot(req, res, next) {
-
+      console.log(req.body)
       /*Call the function unvoted with the answer id, user id and
         question id for unvoted the answer*/
       const result = await usersModel.retrievedPass(req.body.content.email);

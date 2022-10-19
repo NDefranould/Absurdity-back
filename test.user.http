@@ -12,16 +12,6 @@ POST http://localhost:3000/verify/email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC
 
 ###
 # LOGIN
-POST https://absurdity.herokuapp.com/login HTTP/1.1
-content-type: application/json
-
-{
-    "pseudo": "Admin",
-    "password": "IamAdministrator1"
-    
-}
-###
-# LOGIN
 POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
@@ -56,9 +46,6 @@ POST http://localhost:3000/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJp
 
 ###
 POST http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUxNDQ2OTIsImV4cCI6MTY2NTQwMzg5Mn0.NF2BDs6oG1BRDcPh7dwLtXrA3yw99L1ZWrYJyahaapo
-
-###
-DELETE https://absurdity.herokuapp.com/users/34?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInBzZXVkbyI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5mciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2NTU3NzYxNywiZXhwIjoxNjY1ODM2ODE3fQ.ld9NCCQ_oJBsx8T5pk8ysqdBoNqra9hhTcLh9P1vwMU
 
 ###
 

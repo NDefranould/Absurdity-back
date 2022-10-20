@@ -140,7 +140,7 @@ const usersModel = {
 
     /* This function for loggin, is useful for identify user */
     async login(pseudo, password) {
-
+        
         /*The query sql for login with pseudo or email*/
         const query =  `SELECT users.id, pseudo, password, email, roles.name AS role
                         FROM users

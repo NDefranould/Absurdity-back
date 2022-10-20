@@ -1,32 +1,33 @@
-# USE TO SIGNUP 
+# ROAD FOR CREATE USER 
 POST http://localhost:3000/sign-up HTTP/1.1
 content-type: application/json
-
 {
-    "pseudo": "compteFake",
-    "password": "compteFake",
-    "email": "fake@gmail.com"
+    "pseudo": "coucoutoi",
+    "password": "coucoutoi",
+    "email": "coucoutoi@gmail.com"
 }
-###
+
+### 
+# ROAD FOR CHECK EMAIL WITH TOKEN
 POST http://localhost:3000/verify/email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsInBzZXVkbyI6InVzZXJuYW1lIiwiZW1haWwiOiJyb21haW5jaGFiYXJkQGdtYWlsLmNvbSIsInJvbGVfaWQiOjIsImNyZWF0ZWRfYXQiOiIyMDIyLTEwLTEyVDEzOjU0OjMzLjMzOFoiLCJ1cGRhdGVkX2F0IjpudWxsLCJlbWFpbF92ZXJpZnkiOmZhbHNlLCJpYXQiOjE2NjU1ODI4NzMsImV4cCI6MTY2NTg0MjA3M30.aPLVfKul_RWJio_2y3vv_CDfq24q6Bh-Hz-C3jNBjoo
 
 ###
-# LOGIN
+# ROAD FOR LOGIN USER
 POST http://localhost:3000/login HTTP/1.1
 content-type: application/json
 
 {
-    "pseudo": "romain7",
-    "password": "romain",
-    "email": "romain7@nicolas.com"
-}
-###
+    "pseudo": "coucoutoi",
+    "password": "coucoutoi"
 
-# GET USER
+}
+
+###
+# ROAD FOR GET USER
 POST http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInBzZXVkbyI6ImYiLCJlbWFpbCI6ImZAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUzODYyODYsImV4cCI6MTY2NTY0NTQ4Nn0.W39mfbOysyeEjnEiIb7PZdB9v8XepniO4InMTFQkjT4
 
-
 ###
+# ROAD FOR CHANGE PSEUDO OR PASSWORD
 PATCH http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInBzZXVkbyI6ImYiLCJlbWFpbCI6ImZAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUzODU2NTQsImV4cCI6MTY2NTY0NDg1NH0.eiuvDmlbsbVAH_XT1cShKrahYqlKDqZNcJEoZFk46vE
 content-type: application/json
 
@@ -36,19 +37,14 @@ content-type: application/json
     }
       
 }
+
 ###
+# ROAD FOR WATCH ALL USERS BUT BE ADMIN
 POST http://localhost:3000/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInBzZXVkbyI6ImEiLCJlbWFpbCI6ImFAIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY1NDAzNTkzLCJleHAiOjE2NjU2NjI3OTN9.TK9GENe_9iw0xiLxxP3iTssIjz37PflkgCdjpfkQEwY
 
-###
-POST http://localhost:3000/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInBzZXVkbyI6ImIiLCJlbWFpbCI6ImJAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjU0MDM3NDcsImV4cCI6MTY2NTY2Mjk0N30.Mdyyp843hMfr2081VlrbLqdpIocebVw2HZCWg8ZA51A
 
 ###
-
-###
-POST http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInBzZXVkbyI6ImUiLCJlbWFpbCI6ImVAIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NjUxNDQ2OTIsImV4cCI6MTY2NTQwMzg5Mn0.NF2BDs6oG1BRDcPh7dwLtXrA3yw99L1ZWrYJyahaapo
-
-###
-
+# ROAD RETRIEVE PASSWORD BY EMAIL
 POST http://localhost:3000/retrieve/password
 content-type: application/json
 
@@ -58,3 +54,7 @@ content-type: application/json
     }
       
 }
+###
+# ROAD FOR DELETE USER 
+DELETE  http://localhost:3000/user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInBzZXVkbyI6ImEiLCJlbWFpbCI6ImFAIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY1NDAzNTkzLCJleHAiOjE2NjU2NjI3OTN9.TK9GENe_9iw0xiLxxP3iTssIjz37PflkgCdjpfkQEwY
+###
